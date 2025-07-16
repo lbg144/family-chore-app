@@ -486,25 +486,38 @@
             <!-- Family Invitations Section (Parent Only) -->
             <div class="section hidden" id="inviteSection">
                 <h2 class="section-title">Invite Family Members</h2>
-                <div class="form-group">
-                    <input type="text" id="inviteName" placeholder="Family member name" />
+                
+                <!-- Invite Child Section -->
+                <div style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); padding: 20px; border-radius: 16px; margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 15px; color: #333;">👶 Invite a Child</h3>
+                    <div class="form-group">
+                        <input type="text" id="childName" placeholder="Child's name" />
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="childPhone" placeholder="Child's phone number" />
+                    </div>
+                    <button class="btn" id="inviteChildBtn">📱 Send Child Invitation</button>
+                    <div style="margin-top: 10px; font-size: 0.85em; color: #666;">
+                        Child will be automatically assigned the "Child" role and their first chore will be to install the app
+                    </div>
                 </div>
-                <div class="form-group">
-                    <select id="inviteRole">
-                        <option value="child">Child</option>
-                        <option value="parent">Parent (Admin)</option>
-                    </select>
+
+                <!-- Invite Parent Section -->
+                <div style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); padding: 20px; border-radius: 16px; margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 15px; color: #333;">👨‍👩‍👧‍👦 Invite Another Parent Admin</h3>
+                    <div class="form-group">
+                        <input type="text" id="parentName" placeholder="Parent's name" />
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="parentPhone" placeholder="Parent's phone number" />
+                    </div>
+                    <button class="btn" id="inviteParentBtn">📱 Send Parent Invitation</button>
+                    <div style="margin-top: 10px; font-size: 0.85em; color: #666;">
+                        Parent will have full admin access to manage chores and family
+                    </div>
                 </div>
-                <div class="form-group">
-                    <input type="tel" id="invitePhone" placeholder="Phone number (e.g., +1234567890)" />
-                </div>
-                <div class="form-row">
-                    <button class="btn" id="sendInviteBtn">📱 Send Text Invite</button>
-                    <button class="btn" id="addDirectBtn">➕ Add Directly</button>
-                </div>
-                <div class="info-box">
-                    Text invite will send them a link to join your family chore app
-                </div>
+
+                <button class="btn" id="addDirectBtn" style="background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);">➕ Add Member Directly (Manual)</button>
             </div>
 
             <!-- Add Family Member Section (Parent Only) -->
@@ -627,7 +640,8 @@
             addChoreSection: document.getElementById('addChoreSection'),
             addMemberBtn: document.getElementById('addMemberBtn'),
             addChoreBtn: document.getElementById('addChoreBtn'),
-            sendInviteBtn: document.getElementById('sendInviteBtn'),
+            inviteChildBtn: document.getElementById('inviteChildBtn'),
+            inviteParentBtn: document.getElementById('inviteParentBtn'),
             addDirectBtn: document.getElementById('addDirectBtn'),
             notificationBtn: document.getElementById('notificationBtn'),
             closeNotifications: document.getElementById('closeNotifications'),
@@ -635,9 +649,10 @@
             memberName: document.getElementById('memberName'),
             memberRole: document.getElementById('memberRole'),
             memberEmail: document.getElementById('memberEmail'),
-            inviteName: document.getElementById('inviteName'),
-            inviteRole: document.getElementById('inviteRole'),
-            invitePhone: document.getElementById('invitePhone'),
+            childName: document.getElementById('childName'),
+            childPhone: document.getElementById('childPhone'),
+            parentName: document.getElementById('parentName'),
+            parentPhone: document.getElementById('parentPhone'),
             choreTitle: document.getElementById('choreTitle'),
             choreAssignee: document.getElementById('choreAssignee'),
             chorePriority: document.getElementById('chorePriority'),
@@ -679,8 +694,12 @@
                 elements.addChoreBtn.addEventListener('click', addChore);
             }
 
-            if (elements.sendInviteBtn) {
-                elements.sendInviteBtn.addEventListener('click', sendTextInvite);
+            if (elements.inviteChildBtn) {
+                elements.inviteChildBtn.addEventListener('click', sendChildInvite);
+            }
+
+            if (elements.inviteParentBtn) {
+                elements.inviteParentBtn.addEventListener('click', sendParentInvite);
             }
 
             if (elements.addDirectBtn) {
@@ -747,18 +766,110 @@
             renderChores();
         }
 
-        function sendTextInvite() {
-            var name = elements.inviteName.value.trim();
-            var role = elements.inviteRole.value;
-            var phone = elements.invitePhone.value.trim();
+        // Check for invite code in URL when app loads
+        function checkForInviteCode() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var inviteCode = urlParams.get('invite');
+            var role = urlParams.get('role');
+            var name = urlParams.get('name');
+            
+            if (inviteCode && role && name) {
+                handleInviteAcceptance(inviteCode, role, name);
+            }
+        }
+
+        function handleInviteAcceptance(inviteCode, role, name) {
+            // Find the invitation
+            var invitation = null;
+            for (var i = 0; i < appData.invitations.length; i++) {
+                if (appData.invitations[i].id == inviteCode) {
+                    invitation = appData.invitations[i];
+                    break;
+                }
+            }
+            
+            if (invitation) {
+                invitation.accepted = true;
+            }
+            
+            if (role === 'child') {
+                // Automatically set child role - they can't change it
+                setUserRole('child');
+                
+                // Add them to family automatically
+                var childMember = {
+                    id: Date.now(),
+                    name: name,
+                    role: 'child',
+                    email: '',
+                    totalChores: 1, // They start with 1 chore (install app)
+                    completedChores: 0,
+                    isAdmin: false,
+                    inviteCode: inviteCode
+                };
+                
+                appData.familyMembers.push(childMember);
+                
+                // Create their first chore: install the app
+                var installChore = {
+                    id: Date.now(),
+                    title: '📱 Install Family Chores App',
+                    assigneeId: childMember.id,
+                    assigneeName: name,
+                    priority: 'high',
+                    dueDate: new Date().toISOString().split('T')[0], // Today
+                    startTime: '09:00',
+                    frequency: 'once',
+                    reminderInterval: 60,
+                    completed: false,
+                    createdAt: new Date().toISOString(),
+                    createdBy: 'system',
+                    isInstallChore: true
+                };
+                
+                appData.chores.push(installChore);
+                
+                // Hide role selection permanently for invited children
+                if (elements.roleSection) {
+                    elements.roleSection.style.display = 'none';
+                }
+                
+                // Show welcome message
+                addNotification('Welcome ' + name + '!', 'Your first chore is to install this app on your home screen, then take a photo to prove it!', 'welcome');
+                
+                updateStats();
+                renderFamilyMembers();
+                renderChores();
+                
+                // Show special instructions
+                setTimeout(function() {
+                    alert('Welcome ' + name + '! 🎉\n\n' +
+                        'Your first chore is to:\n' +
+                        '1. Tap the Share button in Safari\n' +
+                        '2. Select "Add to Home Screen"\n' +
+                        '3. Name it "Family Chores"\n' +
+                        '4. Take a photo of your home screen showing the new app\n' +
+                        '5. Complete the chore with that photo!\n\n' +
+                        'This ensures you have the app installed properly.');
+                }, 1000);
+                
+            } else if (role === 'parent') {
+                // Parent can choose their role normally
+                addNotification('Welcome!', 'You\'ve been invited as a Parent Admin. Please select your role.', 'welcome');
+            }
+        }
+
+        function sendChildInvite() {
+            var name = elements.childName.value.trim();
+            var phone = elements.childPhone.value.trim();
             
             if (!name) {
-                alert('Please enter a name');
+                alert('Please enter the child\'s name');
                 return;
             }
             
             if (!phone) {
-                alert('Please enter a phone number');
+                alert('Please enter the child\'s phone number');
                 return;
             }
             
@@ -767,7 +878,7 @@
             var invitation = {
                 id: Date.now(),
                 name: name,
-                role: role,
+                role: 'child',
                 phone: cleanPhone,
                 invited: new Date().toISOString(),
                 accepted: false
@@ -775,29 +886,97 @@
             
             appData.invitations.push(invitation);
             
-            var appUrl = window.location.origin + window.location.pathname;
-            var roleText = role === 'parent' ? 'Parent Admin' : 'Child';
+            var baseUrl = window.location.origin + window.location.pathname;
+            var inviteUrl = baseUrl + '?invite=' + invitation.id + '&role=child&name=' + encodeURIComponent(name);
             
-            var message = 'Hi ' + name + '! You\'ve been invited to join our Family Chore Manager as a ' + roleText + '. ' +
-                'Install the app: ' + appUrl + ' ' +
-                'Then tap "Add to Home Screen" in Safari to install it like an app. ' +
-                'Your invite code: ' + invitation.id;
+            var message = 'Hi ' + name + '! 🏠\n\n' +
+                'You\'ve been invited to join our Family Chore Manager! \n\n' +
+                'Click this link to get started: ' + inviteUrl + '\n\n' +
+                'Your first chore will be to install the app on your phone\'s home screen. Easy! 📱\n\n' +
+                'From: Family Chore Manager';
             
             var smsUrl = 'sms:' + cleanPhone + '?&body=' + encodeURIComponent(message);
             
             try {
                 window.location.href = smsUrl;
-                elements.inviteName.value = '';
-                elements.invitePhone.value = '';
-                addNotification('Invite Sent!', 'Text invitation sent to ' + name + ' (' + phone + ')', 'success');
+                elements.childName.value = '';
+                elements.childPhone.value = '';
+                addNotification('Child Invite Sent!', 'Invitation sent to ' + name + ' (' + phone + ')', 'success');
                 
                 setTimeout(function() {
-                    alert('Text invitation sent to ' + name + '!\n\nThey will receive:\n- App link\n- Installation instructions\n- Invite code: ' + invitation.id);
+                    alert('Child invitation sent to ' + name + '! 🎉\n\n' +
+                        'When they click the link:\n' +
+                        '• They\'ll be automatically assigned as a Child\n' +
+                        '• Their first chore will be to install the app\n' +
+                        '• They\'ll take a photo of their home screen to complete it\n\n' +
+                        'Invite code: ' + invitation.id);
                 }, 500);
                 
             } catch (error) {
                 copyToClipboard(message);
-                alert('SMS not available. Message copied to clipboard!\n\nPlease paste and send this text to ' + name + ' (' + phone + '):\n\n' + message);
+                alert('SMS not available. Message copied to clipboard!\n\nPlease paste and send this text to ' + name + ' (' + phone + ')');
+            }
+        }
+
+        function sendParentInvite() {
+            var name = elements.parentName.value.trim();
+            var phone = elements.parentPhone.value.trim();
+            
+            if (!name) {
+                alert('Please enter the parent\'s name');
+                return;
+            }
+            
+            if (!phone) {
+                alert('Please enter the parent\'s phone number');
+                return;
+            }
+            
+            var cleanPhone = phone.replace(/[^\d+]/g, '');
+            
+            var invitation = {
+                id: Date.now(),
+                name: name,
+                role: 'parent',
+                phone: cleanPhone,
+                invited: new Date().toISOString(),
+                accepted: false
+            };
+            
+            appData.invitations.push(invitation);
+            
+            var baseUrl = window.location.origin + window.location.pathname;
+            var inviteUrl = baseUrl + '?invite=' + invitation.id + '&role=parent&name=' + encodeURIComponent(name);
+            
+            var message = 'Hi ' + name + '! 👨‍👩‍👧‍👦\n\n' +
+                'You\'ve been invited to be a Parent Admin for our Family Chore Manager!\n\n' +
+                'Click this link to join: ' + inviteUrl + '\n\n' +
+                'As a Parent Admin, you\'ll be able to:\n' +
+                '• Create and assign chores\n' +
+                '• Invite family members\n' +
+                '• Track completion with photos\n\n' +
+                'From: Family Chore Manager';
+            
+            var smsUrl = 'sms:' + cleanPhone + '?&body=' + encodeURIComponent(message);
+            
+            try {
+                window.location.href = smsUrl;
+                elements.parentName.value = '';
+                elements.parentPhone.value = '';
+                addNotification('Parent Invite Sent!', 'Admin invitation sent to ' + name + ' (' + phone + ')', 'success');
+                
+                setTimeout(function() {
+                    alert('Parent Admin invitation sent to ' + name + '! 🎉\n\n' +
+                        'They will have full admin access to:\n' +
+                        '• Manage family members\n' +
+                        '• Create and assign chores\n' +
+                        '• View all completion photos\n\n' +
+                        'Invite code: ' + invitation.id);
+                }, 500);
+                
+            } catch (error) {
+                copyToClipboard(message);
+                alert('SMS not available. Message copied to clipboard!\n\nPlease paste and send this text to ' + name + ' (' + phone + ')');
             }
         }
 
@@ -1300,8 +1479,14 @@
                 if (chore.completed) classes += ' completed';
                 if (isOverdue) classes += ' overdue';
                 
-                html += '<div class="' + classes + '">' +
-                    '<div class="chore-title">' + chore.title + '</div>' +
+                html += '<div class="' + classes + '">';
+                
+                // Special styling for install chore
+                if (chore.isInstallChore) {
+                    html += '<div style="background: linear-gradient(135deg, #ffa726 0%, #ff7043 100%); color: white; padding: 10px; border-radius: 8px; margin-bottom: 15px; text-align: center; font-weight: bold;">🎯 FIRST CHORE - Install App!</div>';
+                }
+                
+                html += '<div class="chore-title">' + chore.title + '</div>' +
                     '<div class="chore-meta">' +
                     '<span>👤 ' + chore.assigneeName + '</span>' +
                     '<span>📅 ' + dueDate + '</span>' +
@@ -1309,18 +1494,32 @@
                     '<span>🔥 ' + chore.priority + '</span>' +
                     (chore.completed ? '<span>✅ Done</span>' : '') +
                     (isOverdue ? '<span style="color: #ff6b6b;">⚠️ Overdue</span>' : '') +
-                    '</div>' +
-                    (chore.completionPhoto ? '<img src="' + chore.completionPhoto + '" class="completion-photo" alt="Completion photo">' : '') +
+                    '</div>';
+                
+                // Special instructions for install chore
+                if (chore.isInstallChore && !chore.completed) {
+                    html += '<div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0; font-size: 0.9em;">' +
+                        '<strong>📱 How to install:</strong><br>' +
+                        '1. Tap the Share button (⬆️) in Safari<br>' +
+                        '2. Select "Add to Home Screen"<br>' +
+                        '3. Name it "Family Chores"<br>' +
+                        '4. Take a photo of your home screen showing the new app icon<br>' +
+                        '5. Complete this chore with that photo!' +
+                        '</div>';
+                }
+                
+                html += (chore.completionPhoto ? '<img src="' + chore.completionPhoto + '" class="completion-photo" alt="Completion photo">' : '') +
                     '<div class="chore-actions">';
                 
                 if (appData.userRole === 'child' && !chore.completed) {
-                    html += '<button class="btn btn-small btn-photo" onclick="takeCompletionPhoto(' + chore.id + ')">📸 Complete with Photo</button>';
+                    var buttonText = chore.isInstallChore ? '📸 Photo of Home Screen' : '📸 Complete with Photo';
+                    html += '<button class="btn btn-small btn-photo" onclick="takeCompletionPhoto(' + chore.id + ')">' + buttonText + '</button>';
                 } else if (appData.isAdmin) {
                     html += '<button class="btn btn-small ' + (chore.completed ? 'btn-success' : '') + '" onclick="toggleChore(' + chore.id + ')">' +
                         (chore.completed ? 'Mark Incomplete' : 'Mark Complete') + '</button>';
                 }
                 
-                if (appData.isAdmin) {
+                if (appData.isAdmin && !chore.isInstallChore) {
                     html += '<button class="btn btn-small btn-danger" onclick="deleteChore(' + chore.id + ')">Delete</button>';
                 }
                 
@@ -1405,6 +1604,9 @@
             if (elements.choreDueDate) {
                 elements.choreDueDate.value = today;
             }
+            
+            // Check for invite codes first
+            checkForInviteCode();
             
             setupEventListeners();
             updateStats();
