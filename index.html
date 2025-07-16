@@ -617,7 +617,7 @@
     </div>
 
     <script>
-        // App data with persistent family storage
+        // App data with simple family system (no localStorage)
         var appData = {
             familyMembers: [],
             chores: [],
@@ -626,15 +626,7 @@
             currentChoreForPhoto: null,
             isAdmin: false,
             invitations: [],
-            familyId: null,
-            userId: null
-        };
-
-        // Storage keys
-        var STORAGE_KEYS = {
-            FAMILY_PREFIX: 'family_',
-            USER_PREFIX: 'user_',
-            FAMILIES: 'all_families'
+            familyId: null
         };
 
         // Generate unique IDs
@@ -642,132 +634,16 @@
             return Date.now().toString(36) + Math.random().toString(36).substr(2);
         }
 
-        // Family data persistence
+        // Simple family data sharing (in-memory only)
         function saveFamilyData() {
-            if (!appData.familyId) return;
-            
-            var familyData = {
-                id: appData.familyId,
-                members: appData.familyMembers,
-                chores: appData.chores,
-                invitations: appData.invitations,
-                lastUpdated: new Date().toISOString()
-            };
-            
-            try {
-                localStorage.setItem(STORAGE_KEYS.FAMILY_PREFIX + appData.familyId, JSON.stringify(familyData));
-                
-                // Also save to global families list
-                var allFamilies = JSON.parse(localStorage.getItem(STORAGE_KEYS.FAMILIES) || '[]');
-                var existingIndex = allFamilies.findIndex(f => f.id === appData.familyId);
-                
-                if (existingIndex >= 0) {
-                    allFamilies[existingIndex] = { id: appData.familyId, lastUpdated: familyData.lastUpdated };
-                } else {
-                    allFamilies.push({ id: appData.familyId, lastUpdated: familyData.lastUpdated });
-                }
-                
-                localStorage.setItem(STORAGE_KEYS.FAMILIES, JSON.stringify(allFamilies));
-            } catch (e) {
-                console.log('Storage not available, using session data only');
-            }
-        }
-
-        function loadFamilyData(familyId) {
-            try {
-                var familyData = localStorage.getItem(STORAGE_KEYS.FAMILY_PREFIX + familyId);
-                if (familyData) {
-                    var data = JSON.parse(familyData);
-                    appData.familyId = data.id;
-                    appData.familyMembers = data.members || [];
-                    appData.chores = data.chores || [];
-                    appData.invitations = data.invitations || [];
-                    return true;
-                }
-            } catch (e) {
-                console.log('Could not load family data');
-            }
-            return false;
+            // In a real app, this would save to a database
+            // For now, just store in memory during session
+            console.log('Family data updated');
         }
 
         function createNewFamily() {
             appData.familyId = generateId();
-            appData.familyMembers = [];
-            appData.chores = [];
-            appData.invitations = [];
-            saveFamilyData();
             return appData.familyId;
-        }
-
-        // User session management
-        function saveUserSession() {
-            if (!appData.userId) {
-                appData.userId = generateId();
-            }
-            
-            var userData = {
-                id: appData.userId,
-                familyId: appData.familyId,
-                role: appData.userRole,
-                isAdmin: appData.isAdmin,
-                lastActive: new Date().toISOString()
-            };
-            
-            try {
-                localStorage.setItem(STORAGE_KEYS.USER_PREFIX + appData.userId, JSON.stringify(userData));
-            } catch (e) {
-                console.log('Could not save user session');
-            }
-        }
-
-        function loadUserSession() {
-            try {
-                // Check if user has existing session
-                var userKeys = Object.keys(localStorage).filter(key => key.startsWith(STORAGE_KEYS.USER_PREFIX));
-                if (userKeys.length > 0) {
-                    var userData = JSON.parse(localStorage.getItem(userKeys[0]));
-                    appData.userId = userData.id;
-                    
-                    if (userData.familyId && loadFamilyData(userData.familyId)) {
-                        appData.userRole = userData.role;
-                        appData.isAdmin = userData.isAdmin;
-                        return true;
-                    }
-                }
-            } catch (e) {
-                console.log('Could not load user session');
-            }
-            return false;
-        }
-
-        // Auto-refresh family data every 10 seconds to sync with other devices
-        function startFamilySync() {
-            setInterval(function() {
-                if (appData.familyId) {
-                    var currentData = JSON.stringify({
-                        members: appData.familyMembers,
-                        chores: appData.chores,
-                        invitations: appData.invitations
-                    });
-                    
-                    loadFamilyData(appData.familyId);
-                    
-                    var newData = JSON.stringify({
-                        members: appData.familyMembers,
-                        chores: appData.chores,
-                        invitations: appData.invitations
-                    });
-                    
-                    // If data changed, update the UI
-                    if (currentData !== newData) {
-                        updateStats();
-                        renderFamilyMembers();
-                        renderChores();
-                        updateAssigneeDropdown();
-                        renderNotifications();
-                    }
-                }
-            }, 10000); // Sync every 10 seconds
         }
 
         // DOM elements
@@ -877,16 +753,14 @@
         }
 
         function setUserRole(role) {
+            console.log('Setting user role to:', role);
             appData.userRole = role;
             appData.isAdmin = (role === 'parent');
             
-            // If this is the first user (no family exists), create new family
+            // Create family if first user
             if (!appData.familyId) {
                 createNewFamily();
             }
-            
-            // Save user session
-            saveUserSession();
             
             if (elements.roleSection) {
                 elements.roleSection.classList.add('hidden');
@@ -912,9 +786,6 @@
             
             addNotification('Welcome!', 'You are logged in as a ' + (role === 'parent' ? 'Parent Admin' : 'Child'), 'info');
             
-            // Save family data after role is set
-            saveFamilyData();
-            
             updateStats();
             renderFamilyMembers();
             renderChores();
@@ -936,80 +807,77 @@
         }
 
         function handleInviteAcceptance(inviteCode, role, name, familyId) {
-            // Load the family data
-            if (loadFamilyData(familyId)) {
-                // Find the invitation
-                var invitation = null;
-                for (var i = 0; i < appData.invitations.length; i++) {
-                    if (appData.invitations[i].id == inviteCode) {
-                        invitation = appData.invitations[i];
+            // For demo purposes, create the child if they don't exist
+            if (role === 'child') {
+                // Find existing child member
+                var childMember = null;
+                for (var i = 0; i < appData.familyMembers.length; i++) {
+                    if (appData.familyMembers[i].inviteCode == inviteCode) {
+                        childMember = appData.familyMembers[i];
                         break;
                     }
                 }
                 
-                if (invitation) {
-                    invitation.accepted = true;
-                    invitation.acceptedAt = new Date().toISOString();
+                if (!childMember) {
+                    // Create child if not found
+                    childMember = {
+                        id: generateId(),
+                        name: name,
+                        role: 'child',
+                        email: '',
+                        totalChores: 1,
+                        completedChores: 0,
+                        isAdmin: false,
+                        inviteCode: inviteCode,
+                        status: 'active'
+                    };
+                    appData.familyMembers.push(childMember);
+                    
+                    // Create install chore
+                    var installChore = {
+                        id: generateId(),
+                        title: '📱 Install Family Chores App',
+                        assigneeId: childMember.id,
+                        assigneeName: name,
+                        priority: 'high',
+                        dueDate: new Date().toISOString().split('T')[0],
+                        startTime: '09:00',
+                        frequency: 'once',
+                        reminderInterval: 60,
+                        completed: false,
+                        createdAt: new Date().toISOString(),
+                        createdBy: 'system',
+                        isInstallChore: true
+                    };
+                    appData.chores.push(installChore);
                 }
                 
-                if (role === 'child') {
-                    // Find existing child member (should already exist from invite)
-                    var childMember = null;
-                    for (var i = 0; i < appData.familyMembers.length; i++) {
-                        if (appData.familyMembers[i].inviteCode == inviteCode) {
-                            childMember = appData.familyMembers[i];
-                            break;
-                        }
-                    }
-                    
-                    if (childMember) {
-                        // Child already exists, just connect them
-                        setUserRole('child');
-                        
-                        // Hide role selection permanently for invited children
-                        if (elements.roleSection) {
-                            elements.roleSection.style.display = 'none';
-                        }
-                        
-                        // Show welcome message
-                        addNotification('Welcome back ' + name + '!', 'Complete your chores by taking photos!', 'welcome');
-                        
-                        // Check if they have the install chore
-                        var hasInstallChore = false;
-                        for (var i = 0; i < appData.chores.length; i++) {
-                            if (appData.chores[i].assigneeId === childMember.id && appData.chores[i].isInstallChore) {
-                                hasInstallChore = true;
-                                break;
-                            }
-                        }
-                        
-                        if (hasInstallChore) {
-                            setTimeout(function() {
-                                alert('Welcome ' + name + '! 🎉\n\n' +
-                                    'Your first chore is to:\n' +
-                                    '1. Tap the Share button in Safari\n' +
-                                    '2. Select "Add to Home Screen"\n' +
-                                    '3. Name it "Family Chores"\n' +
-                                    '4. Take a photo of your home screen showing the new app\n' +
-                                    '5. Complete the chore with that photo!\n\n' +
-                                    'This ensures you have the app installed properly.');
-                            }, 1000);
-                        }
-                    }
-                    
-                } else if (role === 'parent') {
-                    // Parent joins existing family
-                    addNotification('Welcome!', 'You\'ve joined the family as a Parent Admin. You can now manage all chores and family members.', 'welcome');
-                    // Let parent choose their role normally but they'll join existing family
+                setUserRole('child');
+                
+                if (elements.roleSection) {
+                    elements.roleSection.style.display = 'none';
                 }
                 
-                // Save updated family data
-                saveFamilyData();
-                updateStats();
-                renderFamilyMembers();
-                renderChores();
-                updateAssigneeDropdown();
+                addNotification('Welcome ' + name + '!', 'Complete your chores by taking photos!', 'welcome');
+                
+                setTimeout(function() {
+                    alert('Welcome ' + name + '! 🎉\n\n' +
+                        'Your first chore is to:\n' +
+                        '1. Tap the Share button in Safari\n' +
+                        '2. Select "Add to Home Screen"\n' +
+                        '3. Name it "Family Chores"\n' +
+                        '4. Take a photo of your home screen showing the new app\n' +
+                        '5. Complete the chore with that photo!');
+                }, 1000);
+                
+            } else if (role === 'parent') {
+                addNotification('Welcome!', 'You\'ve joined the family as a Parent Admin.', 'welcome');
             }
+            
+            updateStats();
+            renderFamilyMembers();
+            renderChores();
+            updateAssigneeDropdown();
         }
 
         function sendChildInvite() {
@@ -2104,19 +1972,15 @@
         window.deleteChore = deleteChore;
 
         function init() {
+            console.log('Initializing app...');
+            
             var today = new Date().toISOString().split('T')[0];
             if (elements.choreDueDate) {
                 elements.choreDueDate.value = today;
             }
             
             // Check for invite codes first
-            if (!checkForInviteCode()) {
-                // No invite code, try to load existing user session
-                if (!loadUserSession()) {
-                    // No existing session, user needs to select role
-                    // Role selection will be shown by default
-                }
-            }
+            var hasInvite = checkForInviteCode();
             
             setupEventListeners();
             updateStats();
@@ -2124,8 +1988,7 @@
             renderChores();
             updateAssigneeDropdown();
             
-            // Start family sync for real-time updates
-            startFamilySync();
+            console.log('App initialized, hasInvite:', hasInvite);
         }
 
         if (document.readyState === 'loading') {
