@@ -1,13 +1,4 @@
-                if (appData.userRole === 'child' && !chore.completed) {
-                    html += '<button class="btn btn-small btn-photo" onclick="takeCompletionPhoto(' + chore.id + ')">📸 Complete with Photo</button>';
-                } else if (appData.isAdmin) {
-                    html += '<button class="btn btn-small ' + (chore.completed ? 'btn-success' : '') + '" onclick="toggleChore(' + chore.id + ')">' +
-                        (chore.completed ? 'Mark Incomplete' : 'Mark Complete') + '</button>';
-                }
-                
-                if (appData.isAdmin) {
-                    html += '<button class="btn btn-small btn-danger" onclick="deleteChore(' + chore.id + ')">Delete</button>';
-                }<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -287,14 +278,6 @@
             gap: 10px;
         }
 
-        .photo-preview {
-            width: 100%;
-            max-height: 200px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-top: 10px;
-        }
-
         .completion-photo {
             width: 60px;
             height: 60px;
@@ -439,6 +422,15 @@
             font-size: 0.8em;
             color: #999;
         }
+
+        .info-box {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            font-size: 0.9em;
+            color: #666;
+        }
     </style>
 </head>
 <body>
@@ -486,7 +478,7 @@
                     <button class="btn" id="parentBtn">👨‍👩‍👧‍👦 Parent Admin</button>
                     <button class="btn" id="childBtn">👶 Child</button>
                 </div>
-                <div style="margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 12px; font-size: 0.9em; color: #666;">
+                <div class="info-box">
                     <strong>Note:</strong> Only Parent Admins can invite other family members and manage chores. Children can only complete assigned chores.
                 </div>
             </div>
@@ -510,12 +502,12 @@
                     <button class="btn" id="sendInviteBtn">📱 Send Text Invite</button>
                     <button class="btn" id="addDirectBtn">➕ Add Directly</button>
                 </div>
-                <div style="margin-top: 10px; font-size: 0.85em; color: #666;">
+                <div class="info-box">
                     Text invite will send them a link to join your family chore app
                 </div>
             </div>
 
-            <!-- Add Family Member Section (Parent Only) - Hidden by default -->
+            <!-- Add Family Member Section (Parent Only) -->
             <div class="section hidden" id="addMemberSection">
                 <h2 class="section-title">Manually Add Family Member</h2>
                 <div class="form-group">
@@ -612,8 +604,6 @@
     </div>
 
     <script>
-        console.log('App starting...');
-
         // App data
         var appData = {
             familyMembers: [],
@@ -669,18 +659,14 @@
 
         // Event listeners
         function setupEventListeners() {
-            console.log('Setting up event listeners...');
-            
             if (elements.parentBtn) {
                 elements.parentBtn.addEventListener('click', function() {
-                    console.log('Parent button clicked');
                     setUserRole('parent');
                 });
             }
 
             if (elements.childBtn) {
                 elements.childBtn.addEventListener('click', function() {
-                    console.log('Child button clicked');
                     setUserRole('child');
                 });
             }
@@ -699,7 +685,6 @@
 
             if (elements.addDirectBtn) {
                 elements.addDirectBtn.addEventListener('click', function() {
-                    // Show manual add section
                     if (elements.addMemberSection) {
                         elements.addMemberSection.classList.remove('hidden');
                     }
@@ -721,7 +706,6 @@
                 elements.cameraInput.addEventListener('change', handlePhotoCapture);
             }
 
-            // Close notifications when clicking outside
             if (elements.notificationsPanel) {
                 elements.notificationsPanel.addEventListener('click', function(e) {
                     if (e.target === elements.notificationsPanel) {
@@ -732,7 +716,6 @@
         }
 
         function setUserRole(role) {
-            console.log('Setting role to:', role);
             appData.userRole = role;
             appData.isAdmin = (role === 'parent');
             
@@ -749,7 +732,6 @@
                 elements.currentRole.textContent = roleText;
             }
             
-            // Show parent-admin-only sections
             if (role === 'parent') {
                 if (elements.inviteSection) {
                     elements.inviteSection.classList.remove('hidden');
@@ -780,10 +762,8 @@
                 return;
             }
             
-            // Clean phone number (remove spaces, dashes, etc.)
             var cleanPhone = phone.replace(/[^\d+]/g, '');
             
-            // Create invitation
             var invitation = {
                 id: Date.now(),
                 name: name,
@@ -795,7 +775,6 @@
             
             appData.invitations.push(invitation);
             
-            // Create invitation message
             var appUrl = window.location.origin + window.location.pathname;
             var roleText = role === 'parent' ? 'Parent Admin' : 'Child';
             
@@ -804,37 +783,28 @@
                 'Then tap "Add to Home Screen" in Safari to install it like an app. ' +
                 'Your invite code: ' + invitation.id;
             
-            // Create SMS link
             var smsUrl = 'sms:' + cleanPhone + '?&body=' + encodeURIComponent(message);
             
-            // Try to open SMS app
             try {
                 window.location.href = smsUrl;
-                
-                // Clear form
                 elements.inviteName.value = '';
                 elements.invitePhone.value = '';
-                
                 addNotification('Invite Sent!', 'Text invitation sent to ' + name + ' (' + phone + ')', 'success');
                 
-                // Show them the invite was created
                 setTimeout(function() {
                     alert('Text invitation sent to ' + name + '!\n\nThey will receive:\n- App link\n- Installation instructions\n- Invite code: ' + invitation.id);
                 }, 500);
                 
             } catch (error) {
-                // Fallback - copy to clipboard and show instructions
                 copyToClipboard(message);
                 alert('SMS not available. Message copied to clipboard!\n\nPlease paste and send this text to ' + name + ' (' + phone + '):\n\n' + message);
             }
         }
 
         function copyToClipboard(text) {
-            // Try modern clipboard API
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(text);
             } else {
-                // Fallback for older browsers
                 var textArea = document.createElement('textarea');
                 textArea.value = text;
                 textArea.style.position = 'fixed';
@@ -847,6 +817,13 @@
                 textArea.remove();
             }
         }
+
+        function addFamilyMember() {
+            if (!appData.isAdmin) {
+                alert('Only Parent Admins can add family members');
+                return;
+            }
+            
             var name = elements.memberName.value.trim();
             var role = elements.memberRole.value;
             var email = elements.memberEmail.value.trim();
@@ -856,7 +833,6 @@
                 return;
             }
 
-            // Check if member already exists
             for (var i = 0; i < appData.familyMembers.length; i++) {
                 if (appData.familyMembers[i].name === name) {
                     alert('Family member already exists');
@@ -870,23 +846,29 @@
                 role: role,
                 email: email,
                 totalChores: 0,
-                completedChores: 0
+                completedChores: 0,
+                isAdmin: (role === 'parent')
             };
 
             appData.familyMembers.push(member);
             
-            // Clear form
             elements.memberName.value = '';
             elements.memberEmail.value = '';
+            
+            if (elements.addMemberSection) {
+                elements.addMemberSection.classList.add('hidden');
+            }
+            if (elements.inviteSection) {
+                elements.inviteSection.classList.remove('hidden');
+            }
             
             updateStats();
             renderFamilyMembers();
             updateAssigneeDropdown();
-            addNotification('Family Update', name + ' has been added to the family!', 'success');
+            addNotification('Family Update', name + ' has been added to the family as a ' + (role === 'parent' ? 'Parent Admin' : 'Child') + '!', 'success');
         }
 
         function addChore() {
-            // Only admins can add chores
             if (!appData.isAdmin) {
                 alert('Only Parent Admins can create chores');
                 return;
@@ -923,7 +905,6 @@
                 }
             }
             
-            // Only allow assigning to children
             if (assignee && assignee.role === 'parent') {
                 alert('Chores can only be assigned to children');
                 return;
@@ -946,12 +927,10 @@
 
             appData.chores.push(chore);
             
-            // Update member stats
             if (assignee) {
                 assignee.totalChores++;
             }
 
-            // Clear form
             elements.choreTitle.value = '';
             elements.choreAssignee.value = '';
             elements.chorePriority.value = 'low';
@@ -980,14 +959,12 @@
             if (!chore) return;
 
             if (appData.userRole === 'child' && !chore.completed) {
-                // Children must take a photo to complete
                 takeCompletionPhoto(choreId);
                 return;
             }
 
             chore.completed = !chore.completed;
             
-            // Update member stats
             var member = null;
             for (var i = 0; i < appData.familyMembers.length; i++) {
                 if (appData.familyMembers[i].id === chore.assigneeId) {
@@ -1044,7 +1021,6 @@
             chore.completionPhoto = photoData;
             chore.completedAt = new Date().toISOString();
 
-            // Update member stats
             var member = null;
             for (var i = 0; i < appData.familyMembers.length; i++) {
                 if (appData.familyMembers[i].id === chore.assigneeId) {
@@ -1056,7 +1032,6 @@
             if (member) {
                 member.completedChores++;
 
-                // Notify parents
                 var parents = [];
                 for (var i = 0; i < appData.familyMembers.length; i++) {
                     if (appData.familyMembers[i].role === 'parent') {
@@ -1081,7 +1056,6 @@
         }
 
         function removeFamilyMember(id) {
-            // Only admins can remove family members
             if (!appData.isAdmin) {
                 alert('Only Parent Admins can remove family members');
                 return;
@@ -1100,7 +1074,6 @@
                     return m.id !== id;
                 });
                 
-                // Unassign chores
                 for (var i = 0; i < appData.chores.length; i++) {
                     if (appData.chores[i].assigneeId === id) {
                         appData.chores[i].assigneeId = null;
@@ -1120,7 +1093,6 @@
         }
 
         function deleteChore(id) {
-            // Only admins can delete chores
             if (!appData.isAdmin) {
                 alert('Only Parent Admins can delete chores');
                 return;
@@ -1181,7 +1153,6 @@
             
             renderNotifications();
             
-            // Auto-show for parents
             if (appData.userRole === 'parent' && type === 'completion') {
                 showNotifications();
                 setTimeout(hideNotifications, 3000);
@@ -1291,7 +1262,6 @@
                 return;
             }
 
-            // Filter chores based on user role
             var filteredChores = appData.chores;
             if (appData.userRole === 'child') {
                 filteredChores = [];
@@ -1312,7 +1282,6 @@
                 }
             }
 
-            // Sort chores
             filteredChores.sort(function(a, b) {
                 if (a.completed !== b.completed) return a.completed ? 1 : -1;
                 return new Date(a.dueDate) - new Date(b.dueDate);
@@ -1325,7 +1294,6 @@
                 var chore = filteredChores[i];
                 var choreDateTime = new Date(chore.dueDate + 'T' + (chore.startTime || '09:00'));
                 var isOverdue = !chore.completed && now > choreDateTime;
-                var isActive = !chore.completed && Math.abs(now - choreDateTime) < 3600000;
                 var dueDate = new Date(chore.dueDate).toLocaleDateString();
                 
                 var classes = 'chore-item';
@@ -1341,19 +1309,18 @@
                     '<span>🔥 ' + chore.priority + '</span>' +
                     (chore.completed ? '<span>✅ Done</span>' : '') +
                     (isOverdue ? '<span style="color: #ff6b6b;">⚠️ Overdue</span>' : '') +
-                    (isActive ? '<span style="color: #ffa726;">🔔 Active</span>' : '') +
                     '</div>' +
                     (chore.completionPhoto ? '<img src="' + chore.completionPhoto + '" class="completion-photo" alt="Completion photo">' : '') +
                     '<div class="chore-actions">';
                 
                 if (appData.userRole === 'child' && !chore.completed) {
                     html += '<button class="btn btn-small btn-photo" onclick="takeCompletionPhoto(' + chore.id + ')">📸 Complete with Photo</button>';
-                } else {
+                } else if (appData.isAdmin) {
                     html += '<button class="btn btn-small ' + (chore.completed ? 'btn-success' : '') + '" onclick="toggleChore(' + chore.id + ')">' +
                         (chore.completed ? 'Mark Incomplete' : 'Mark Complete') + '</button>';
                 }
                 
-                if (appData.userRole === 'parent') {
+                if (appData.isAdmin) {
                     html += '<button class="btn btn-small btn-danger" onclick="deleteChore(' + chore.id + ')">Delete</button>';
                 }
                 
@@ -1399,7 +1366,6 @@
             var progressPercentage = weeklyChores.length > 0 ? 
                 Math.round((completedWeeklyChores.length / weeklyChores.length) * 100) : 0;
             
-            // Update progress bar
             if (elements.weekProgressFill) {
                 elements.weekProgressFill.style.width = progressPercentage + '%';
             }
@@ -1408,14 +1374,12 @@
                     progressPercentage + '% Complete (' + completedWeeklyChores.length + '/' + weeklyChores.length + ' chores)';
             }
             
-            // Check if all weekly chores are completed
             if (weeklyChores.length > 0 && completedWeeklyChores.length === weeklyChores.length) {
                 showCelebration();
             }
         }
 
         function showCelebration() {
-            // Send celebration notification to all family members
             for (var i = 0; i < appData.familyMembers.length; i++) {
                 addNotification(
                     '🎉 Weekly Goal Achieved!',
@@ -1431,17 +1395,12 @@
             return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         }
 
-        // Make functions globally accessible for onclick handlers
         window.toggleChore = toggleChore;
         window.takeCompletionPhoto = takeCompletionPhoto;
         window.removeFamilyMember = removeFamilyMember;
         window.deleteChore = deleteChore;
 
-        // Initialize the app
         function init() {
-            console.log('Initializing app...');
-            
-            // Set default due date to today
             var today = new Date().toISOString().split('T')[0];
             if (elements.choreDueDate) {
                 elements.choreDueDate.value = today;
@@ -1452,18 +1411,13 @@
             renderFamilyMembers();
             renderChores();
             updateAssigneeDropdown();
-            
-            console.log('App initialized successfully');
         }
 
-        // Start the app when DOM is ready
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', init);
         } else {
             init();
         }
-
-        console.log('Script loaded successfully');
     </script>
 </body>
 </html>
