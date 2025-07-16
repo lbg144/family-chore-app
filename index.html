@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title> Family Chore Manager</title>
+    <title>Family Chore Manager</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Chore Manager">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' fill='%234facfe'/%3E%3Ctext x='90' y='110' font-size='80' text-anchor='middle' fill='white'%3E🏠%3C/text%3E%3C/svg%3E">
     <style>
         * {
             margin: 0;
@@ -17,13 +16,11 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 0;
             margin: 0;
-            -webkit-user-select: none;
-            user-select: none;
             overflow-x: hidden;
         }
 
@@ -33,7 +30,6 @@
             background: white;
             min-height: 100vh;
             position: relative;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
 
         .header {
@@ -64,14 +60,8 @@
             border-radius: 20px;
             font-size: 0.8em;
             cursor: pointer;
-            transition: all 0.3s ease;
             border: none;
             color: white;
-        }
-
-        .notification-btn:active {
-            background: rgba(255,255,255,0.3);
-            transform: scale(0.95);
         }
 
         .main-content {
@@ -141,7 +131,6 @@
             border: 2px solid #e0e0e0;
             border-radius: 12px;
             font-size: 16px;
-            transition: all 0.3s ease;
             background: white;
             -webkit-appearance: none;
             appearance: none;
@@ -169,34 +158,15 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             width: 100%;
-            position: relative;
-            overflow: hidden;
+            touch-action: manipulation;
         }
 
         .btn:active {
             transform: scale(0.98);
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255,255,255,0.2);
-            border-radius: 50%;
-            transition: width 0.3s, height 0.3s;
-            transform: translate(-50%, -50%);
-        }
-
-        .btn:active::before {
-            width: 300px;
-            height: 300px;
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
         }
 
         .btn-small {
@@ -237,10 +207,6 @@
             margin-bottom: 15px;
         }
 
-        .member-info {
-            flex: 1;
-        }
-
         .member-name {
             font-size: 1.2em;
             font-weight: 700;
@@ -278,7 +244,6 @@
             border-radius: 16px;
             border-left: 4px solid #667eea;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
         }
 
         .chore-item.completed {
@@ -289,18 +254,6 @@
         .chore-item.overdue {
             border-left-color: #ff6b6b;
             background: #fff5f5;
-        }
-
-        .chore-item.active {
-            border-left-color: #ffa726;
-            background: #fffbf0;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-            50% { box-shadow: 0 8px 24px rgba(255, 167, 38, 0.3); }
-            100% { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         }
 
         .chore-title {
@@ -325,25 +278,12 @@
             gap: 10px;
         }
 
-        .priority-high {
-            border-left-color: #ff6b6b !important;
-        }
-
-        .priority-medium {
-            border-left-color: #ffa726 !important;
-        }
-
-        .priority-low {
-            border-left-color: #66bb6a !important;
-        }
-
         .photo-preview {
             width: 100%;
             max-height: 200px;
             object-fit: cover;
             border-radius: 12px;
             margin-top: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .completion-photo {
@@ -355,27 +295,73 @@
             border: 2px solid #4ecdc4;
         }
 
-        .calendar-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 15px;
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
         }
 
-        .calendar-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .empty-state h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .role-indicator {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
             color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 14px;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
             font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            display: none;
         }
 
-        .calendar-btn:active {
-            transform: scale(0.95);
+        .hidden-input {
+            position: absolute;
+            left: -9999px;
+            opacity: 0;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .week-progress {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .week-progress h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 0.9em;
+            color: #666;
+            text-align: center;
         }
 
         .notifications-panel {
@@ -387,8 +373,6 @@
             background: rgba(0,0,0,0.5);
             z-index: 1000;
             display: none;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
         }
 
         .notifications-content {
@@ -419,27 +403,16 @@
             color: white;
             font-size: 24px;
             cursor: pointer;
-            padding: 0;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .notifications-list {
             max-height: calc(100vh - 220px);
             overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
         }
 
         .notification-item {
             padding: 20px;
             border-bottom: 1px solid #eee;
-        }
-
-        .notification-item:last-child {
-            border-bottom: none;
         }
 
         .notification-title {
@@ -451,143 +424,11 @@
         .notification-message {
             color: #666;
             margin-bottom: 5px;
-            line-height: 1.4;
         }
 
         .notification-time {
             font-size: 0.8em;
             color: #999;
-        }
-
-        .notification-photo {
-            width: 100%;
-            max-width: 200px;
-            border-radius: 8px;
-            margin-top: 10px;
-        }
-
-        .celebration-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            display: none;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        .celebration-content {
-            background: white;
-            padding: 40px 30px;
-            border-radius: 20px;
-            text-align: center;
-            margin: 20px;
-            max-width: 350px;
-        }
-
-        .celebration-content h2 {
-            color: #4ecdc4;
-            margin-bottom: 20px;
-            font-size: 2em;
-        }
-
-        .week-progress {
-            background: #f8f9fa;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 25px;
-        }
-
-        .week-progress h3 {
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 1.1em;
-        }
-
-        .progress-bar {
-            background: #e0e0e0;
-            height: 8px;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 10px;
-        }
-
-        .progress-fill {
-            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
-            height: 100%;
-            transition: width 0.3s ease;
-        }
-
-        .progress-text {
-            font-size: 0.9em;
-            color: #666;
-            text-align: center;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: #666;
-        }
-
-        .empty-state h3 {
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        .parent-only {
-            opacity: 0.6;
-            pointer-events: none;
-        }
-
-        .role-indicator {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.8);
-            color: white;
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-            font-weight: 600;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        .hidden-input {
-            position: absolute;
-            left: -9999px;
-            opacity: 0;
-        }
-
-        @media (max-height: 700px) {
-            .header {
-                padding: 50px 20px 20px 20px;
-            }
-            
-            .main-content {
-                padding: 15px;
-                padding-bottom: 80px;
-            }
-        }
-
-        /* iOS specific styles */
-        @supports (-webkit-touch-callout: none) {
-            .btn {
-                -webkit-appearance: none;
-            }
-            
-            input, select {
-                -webkit-appearance: none;
-                border-radius: 12px;
-            }
         }
     </style>
 </head>
@@ -596,9 +437,7 @@
         <div class="header">
             <h1>🏠 Family Chores</h1>
             <p>Smart chore management for busy families</p>
-            <button class="notification-btn" id="notificationBtn" onclick="toggleNotifications()">
-                🔔
-            </button>
+            <button class="notification-btn" id="notificationBtn">🔔</button>
         </div>
 
         <div class="main-content">
@@ -626,7 +465,7 @@
             <div class="week-progress">
                 <h3>📅 This Week's Progress</h3>
                 <div class="progress-bar">
-                    <div class="progress-fill" id="weekProgressFill" style="width: 0%"></div>
+                    <div class="progress-fill" id="weekProgressFill"></div>
                 </div>
                 <div class="progress-text" id="weekProgressText">0% Complete</div>
             </div>
@@ -635,13 +474,13 @@
             <div class="section" id="roleSection">
                 <h2 class="section-title">Choose Your Role</h2>
                 <div class="form-row">
-                    <button class="btn" onclick="setUserRole('parent')">👨‍👩‍👧‍👦 Parent</button>
-                    <button class="btn" onclick="setUserRole('child')">👶 Child</button>
+                    <button class="btn" id="parentBtn">👨‍👩‍👧‍👦 Parent</button>
+                    <button class="btn" id="childBtn">👶 Child</button>
                 </div>
             </div>
 
             <!-- Add Family Member Section (Parent Only) -->
-            <div class="section parent-section" id="addMemberSection" style="display: none;">
+            <div class="section hidden" id="addMemberSection">
                 <h2 class="section-title">Add Family Member</h2>
                 <div class="form-group">
                     <input type="text" id="memberName" placeholder="Enter family member name" />
@@ -655,7 +494,7 @@
                 <div class="form-group">
                     <input type="email" id="memberEmail" placeholder="Email for notifications (optional)" />
                 </div>
-                <button class="btn" onclick="addFamilyMember()">Add Member</button>
+                <button class="btn" id="addMemberBtn">Add Member</button>
             </div>
 
             <!-- Family Members Section -->
@@ -670,7 +509,7 @@
             </div>
 
             <!-- Add Chore Section (Parent Only) -->
-            <div class="section parent-section" id="addChoreSection" style="display: none;">
+            <div class="section hidden" id="addChoreSection">
                 <h2 class="section-title">Add New Chore</h2>
                 <div class="form-group">
                     <input type="text" id="choreTitle" placeholder="Chore title" />
@@ -699,11 +538,7 @@
                 <div class="form-group">
                     <input type="number" id="reminderInterval" placeholder="Reminder interval (minutes)" value="60" min="15" max="240" />
                 </div>
-                <button class="btn" onclick="addChore()">Add Chore</button>
-                <div class="calendar-buttons">
-                    <button class="calendar-btn" onclick="addToGoogleCalendar()">📅 Add to Google Calendar</button>
-                    <button class="calendar-btn" onclick="addToiOSCalendar()">📱 Add to iPhone Calendar</button>
-                </div>
+                <button class="btn" id="addChoreBtn">Add Chore</button>
             </div>
 
             <!-- Chores List Section -->
@@ -719,176 +554,500 @@
         </div>
 
         <!-- Role Indicator -->
-        <div class="role-indicator" id="roleIndicator" style="display: none;">
+        <div class="role-indicator" id="roleIndicator">
             Current Role: <span id="currentRole"></span>
         </div>
     </div>
 
     <!-- Hidden file input for camera -->
-    <input type="file" id="cameraInput" class="hidden-input" accept="image/*" capture="environment" onchange="handlePhotoCapture(event)">
+    <input type="file" id="cameraInput" class="hidden-input" accept="image/*" capture="environment">
 
     <!-- Notifications Panel -->
     <div class="notifications-panel" id="notificationsPanel">
         <div class="notifications-content">
             <div class="notifications-header">
                 <span>📢 Notifications</span>
-                <button class="close-btn" onclick="hideNotifications()">×</button>
+                <button class="close-btn" id="closeNotifications">×</button>
             </div>
-            <div class="notifications-list" id="notificationsList"></div>
-        </div>
-    </div>
-
-    <!-- Celebration Overlay -->
-    <div class="celebration-overlay" id="celebrationOverlay">
-        <div class="celebration-content">
-            <h2>🎉 Amazing!</h2>
-            <p>All weekly chores completed!</p>
-            <p>Great teamwork! 🌟</p>
-            <button class="btn" onclick="closeCelebration()">Awesome!</button>
+            <div class="notifications-list" id="notificationsList">
+                <div style="padding: 20px; text-align: center; color: #666;">No notifications yet</div>
+            </div>
         </div>
     </div>
 
     <script>
-        // Data storage
-        let familyMembers = [];
-        let chores = [];
-        let notifications = [];
-        let userRole = null;
-        let currentChoreForPhoto = null;
-        let notificationPermission = false;
-        let activeTimers = new Map();
+        console.log('App starting...');
 
-        // Debug function to test if script is loading
-        console.log('Family Chore Manager script loaded');
+        // App data
+        var appData = {
+            familyMembers: [],
+            chores: [],
+            notifications: [],
+            userRole: null,
+            currentChoreForPhoto: null
+        };
 
-        // Make sure setUserRole is globally accessible
-        window.setUserRole = function(role) {
-            console.log('Setting user role to:', role);
-            userRole = role;
-            document.getElementById('roleSection').style.display = 'none';
-            document.getElementById('roleIndicator').style.display = 'block';
-            document.getElementById('currentRole').textContent = role.charAt(0).toUpperCase() + role.slice(1);
-            
-            // Show/hide parent-only sections
-            const parentSections = document.querySelectorAll('.parent-section');
-            parentSections.forEach(section => {
-                section.style.display = role === 'parent' ? 'block' : 'none';
-            });
-            
-        // Make all functions globally accessible
-        window.toggleNotifications = toggleNotifications;
-        window.addFamilyMember = addFamilyMember;
-        window.removeFamilyMember = removeFamilyMember;
-        window.addChore = addChore;
-        window.toggleChore = toggleChore;
-        window.deleteChore = deleteChore;
-        window.takeCompletionPhoto = takeCompletionPhoto;
-        window.handlePhotoCapture = handlePhotoCapture;
-        window.addToGoogleCalendar = addToGoogleCalendar;
-        window.addToiOSCalendar = addToiOSCalendar;
-        window.hideNotifications = hideNotifications;
-        window.closeCelebration = closeCelebration;
+        // DOM elements
+        var elements = {
+            parentBtn: document.getElementById('parentBtn'),
+            childBtn: document.getElementById('childBtn'),
+            roleSection: document.getElementById('roleSection'),
+            roleIndicator: document.getElementById('roleIndicator'),
+            currentRole: document.getElementById('currentRole'),
+            addMemberSection: document.getElementById('addMemberSection'),
+            addChoreSection: document.getElementById('addChoreSection'),
+            addMemberBtn: document.getElementById('addMemberBtn'),
+            addChoreBtn: document.getElementById('addChoreBtn'),
+            notificationBtn: document.getElementById('notificationBtn'),
+            closeNotifications: document.getElementById('closeNotifications'),
+            notificationsPanel: document.getElementById('notificationsPanel'),
+            memberName: document.getElementById('memberName'),
+            memberRole: document.getElementById('memberRole'),
+            memberEmail: document.getElementById('memberEmail'),
+            choreTitle: document.getElementById('choreTitle'),
+            choreAssignee: document.getElementById('choreAssignee'),
+            chorePriority: document.getElementById('chorePriority'),
+            choreFrequency: document.getElementById('choreFrequency'),
+            choreDueDate: document.getElementById('choreDueDate'),
+            choreStartTime: document.getElementById('choreStartTime'),
+            reminderInterval: document.getElementById('reminderInterval'),
+            familyMembersList: document.getElementById('familyMembersList'),
+            choresList: document.getElementById('choresList'),
+            totalChores: document.getElementById('totalChores'),
+            completedChores: document.getElementById('completedChores'),
+            overdueChores: document.getElementById('overdueChores'),
+            familyMembers: document.getElementById('familyMembers'),
+            weekProgressFill: document.getElementById('weekProgressFill'),
+            weekProgressText: document.getElementById('weekProgressText'),
+            notificationsList: document.getElementById('notificationsList'),
+            cameraInput: document.getElementById('cameraInput')
+        };
 
-        // Initialize the app
-        function init() {
-            userRole = role;
-            document.getElementById('roleSection').style.display = 'none';
-            document.getElementById('roleIndicator').style.display = 'block';
-            document.getElementById('currentRole').textContent = role.charAt(0).toUpperCase() + role.slice(1);
+        // Event listeners
+        function setupEventListeners() {
+            console.log('Setting up event listeners...');
             
-            // Show/hide parent-only sections
-            const parentSections = document.querySelectorAll('.parent-section');
-            parentSections.forEach(section => {
-                section.style.display = role === 'parent' ? 'block' : 'none';
-            });
-            
-            addNotification('Welcome!', `You're logged in as a ${role}`, 'info');
-        }
+            if (elements.parentBtn) {
+                elements.parentBtn.addEventListener('click', function() {
+                    console.log('Parent button clicked');
+                    setUserRole('parent');
+                });
+            }
 
-        // Notification system
-        function requestNotificationPermission() {
-            if ('Notification' in window) {
-                Notification.requestPermission().then(function(permission) {
-                    if (permission === 'granted') {
-                        notificationPermission = true;
-                        document.getElementById('notificationBtn').innerHTML = '🔔';
-                        addNotification('System', 'Notifications enabled!', 'info');
+            if (elements.childBtn) {
+                elements.childBtn.addEventListener('click', function() {
+                    console.log('Child button clicked');
+                    setUserRole('child');
+                });
+            }
+
+            if (elements.addMemberBtn) {
+                elements.addMemberBtn.addEventListener('click', addFamilyMember);
+            }
+
+            if (elements.addChoreBtn) {
+                elements.addChoreBtn.addEventListener('click', addChore);
+            }
+
+            if (elements.notificationBtn) {
+                elements.notificationBtn.addEventListener('click', toggleNotifications);
+            }
+
+            if (elements.closeNotifications) {
+                elements.closeNotifications.addEventListener('click', hideNotifications);
+            }
+
+            if (elements.cameraInput) {
+                elements.cameraInput.addEventListener('change', handlePhotoCapture);
+            }
+
+            // Close notifications when clicking outside
+            if (elements.notificationsPanel) {
+                elements.notificationsPanel.addEventListener('click', function(e) {
+                    if (e.target === elements.notificationsPanel) {
+                        hideNotifications();
                     }
                 });
             }
         }
 
-        function checkNotificationPermission() {
-            if ('Notification' in window && Notification.permission === 'granted') {
-                notificationPermission = true;
+        function setUserRole(role) {
+            console.log('Setting role to:', role);
+            appData.userRole = role;
+            
+            if (elements.roleSection) {
+                elements.roleSection.classList.add('hidden');
+            }
+            
+            if (elements.roleIndicator) {
+                elements.roleIndicator.style.display = 'block';
+            }
+            
+            if (elements.currentRole) {
+                elements.currentRole.textContent = role.charAt(0).toUpperCase() + role.slice(1);
+            }
+            
+            // Show parent-only sections
+            if (role === 'parent') {
+                if (elements.addMemberSection) {
+                    elements.addMemberSection.classList.remove('hidden');
+                }
+                if (elements.addChoreSection) {
+                    elements.addChoreSection.classList.remove('hidden');
+                }
+            }
+            
+            addNotification('Welcome!', 'You are logged in as a ' + role, 'info');
+            updateStats();
+            renderFamilyMembers();
+            renderChores();
+        }
+
+        function addFamilyMember() {
+            var name = elements.memberName.value.trim();
+            var role = elements.memberRole.value;
+            var email = elements.memberEmail.value.trim();
+            
+            if (!name) {
+                alert('Please enter a family member name');
+                return;
+            }
+
+            // Check if member already exists
+            for (var i = 0; i < appData.familyMembers.length; i++) {
+                if (appData.familyMembers[i].name === name) {
+                    alert('Family member already exists');
+                    return;
+                }
+            }
+
+            var member = {
+                id: Date.now(),
+                name: name,
+                role: role,
+                email: email,
+                totalChores: 0,
+                completedChores: 0
+            };
+
+            appData.familyMembers.push(member);
+            
+            // Clear form
+            elements.memberName.value = '';
+            elements.memberEmail.value = '';
+            
+            updateStats();
+            renderFamilyMembers();
+            updateAssigneeDropdown();
+            addNotification('Family Update', name + ' has been added to the family!', 'success');
+        }
+
+        function addChore() {
+            var title = elements.choreTitle.value.trim();
+            var assigneeId = elements.choreAssignee.value;
+            var priority = elements.chorePriority.value;
+            var dueDate = elements.choreDueDate.value;
+            var startTime = elements.choreStartTime.value;
+            var frequency = elements.choreFrequency.value;
+            var reminderInterval = parseInt(elements.reminderInterval.value) || 60;
+
+            if (!title) {
+                alert('Please enter a chore title');
+                return;
+            }
+
+            if (!dueDate) {
+                alert('Please select a due date');
+                return;
+            }
+
+            if (!assigneeId) {
+                alert('Please select a child to assign the chore to');
+                return;
+            }
+
+            var assignee = null;
+            for (var i = 0; i < appData.familyMembers.length; i++) {
+                if (appData.familyMembers[i].id == assigneeId) {
+                    assignee = appData.familyMembers[i];
+                    break;
+                }
+            }
+            
+            var chore = {
+                id: Date.now(),
+                title: title,
+                assigneeId: assigneeId,
+                assigneeName: assignee ? assignee.name : 'Unassigned',
+                priority: priority,
+                dueDate: dueDate,
+                startTime: startTime || '09:00',
+                frequency: frequency,
+                reminderInterval: reminderInterval,
+                completed: false,
+                createdAt: new Date().toISOString()
+            };
+
+            appData.chores.push(chore);
+            
+            // Update member stats
+            if (assignee) {
+                assignee.totalChores++;
+            }
+
+            // Clear form
+            elements.choreTitle.value = '';
+            elements.choreAssignee.value = '';
+            elements.chorePriority.value = 'low';
+            elements.choreStartTime.value = '';
+            elements.choreFrequency.value = 'once';
+            elements.reminderInterval.value = '60';
+
+            updateStats();
+            renderChores();
+            renderFamilyMembers();
+            
+            if (assignee) {
+                addNotification('New Chore', title + ' has been assigned to ' + assignee.name, 'info');
             }
         }
 
-        function sendNotification(title, message, photo = null) {
-            if (notificationPermission) {
-                const options = {
-                    body: message,
-                    icon: '🏠',
-                    badge: '🏠'
-                };
-                
-                if (photo) {
-                    options.image = photo;
+        function toggleChore(choreId) {
+            var chore = null;
+            for (var i = 0; i < appData.chores.length; i++) {
+                if (appData.chores[i].id === choreId) {
+                    chore = appData.chores[i];
+                    break;
+                }
+            }
+            
+            if (!chore) return;
+
+            if (appData.userRole === 'child' && !chore.completed) {
+                // Children must take a photo to complete
+                takeCompletionPhoto(choreId);
+                return;
+            }
+
+            chore.completed = !chore.completed;
+            
+            // Update member stats
+            var member = null;
+            for (var i = 0; i < appData.familyMembers.length; i++) {
+                if (appData.familyMembers[i].id === chore.assigneeId) {
+                    member = appData.familyMembers[i];
+                    break;
+                }
+            }
+            
+            if (member) {
+                if (chore.completed) {
+                    member.completedChores++;
+                } else {
+                    member.completedChores--;
+                }
+            }
+            
+            updateStats();
+            renderChores();
+            renderFamilyMembers();
+            checkWeeklyCompletion();
+        }
+
+        function takeCompletionPhoto(choreId) {
+            appData.currentChoreForPhoto = choreId;
+            if (elements.cameraInput) {
+                elements.cameraInput.click();
+            }
+        }
+
+        function handlePhotoCapture(event) {
+            var file = event.target.files[0];
+            if (!file || !appData.currentChoreForPhoto) return;
+
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var photoData = e.target.result;
+                completeChoreWithPhoto(appData.currentChoreForPhoto, photoData);
+                appData.currentChoreForPhoto = null;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function completeChoreWithPhoto(choreId, photoData) {
+            var chore = null;
+            for (var i = 0; i < appData.chores.length; i++) {
+                if (appData.chores[i].id === choreId) {
+                    chore = appData.chores[i];
+                    break;
+                }
+            }
+            if (!chore) return;
+
+            chore.completed = true;
+            chore.completionPhoto = photoData;
+            chore.completedAt = new Date().toISOString();
+
+            // Update member stats
+            var member = null;
+            for (var i = 0; i < appData.familyMembers.length; i++) {
+                if (appData.familyMembers[i].id === chore.assigneeId) {
+                    member = appData.familyMembers[i];
+                    break;
+                }
+            }
+            
+            if (member) {
+                member.completedChores++;
+
+                // Notify parents
+                var parents = [];
+                for (var i = 0; i < appData.familyMembers.length; i++) {
+                    if (appData.familyMembers[i].role === 'parent') {
+                        parents.push(appData.familyMembers[i]);
+                    }
                 }
                 
-                new Notification(title, options);
+                for (var i = 0; i < parents.length; i++) {
+                    addNotification(
+                        '✅ ' + chore.title + ' Complete!',
+                        member.name + ' finished: ' + chore.title,
+                        'completion',
+                        photoData
+                    );
+                }
             }
-            addNotification(title, message, 'info', photo);
+
+            updateStats();
+            renderChores();
+            renderFamilyMembers();
+            checkWeeklyCompletion();
         }
 
-        function addNotification(title, message, type, photo = null) {
-            const notification = {
+        function removeFamilyMember(id) {
+            if (confirm('Are you sure you want to remove this family member?')) {
+                var member = null;
+                for (var i = 0; i < appData.familyMembers.length; i++) {
+                    if (appData.familyMembers[i].id === id) {
+                        member = appData.familyMembers[i];
+                        break;
+                    }
+                }
+                
+                appData.familyMembers = appData.familyMembers.filter(function(m) {
+                    return m.id !== id;
+                });
+                
+                // Unassign chores
+                for (var i = 0; i < appData.chores.length; i++) {
+                    if (appData.chores[i].assigneeId === id) {
+                        appData.chores[i].assigneeId = null;
+                        appData.chores[i].assigneeName = 'Unassigned';
+                    }
+                }
+                
+                updateStats();
+                renderFamilyMembers();
+                renderChores();
+                updateAssigneeDropdown();
+                
+                if (member) {
+                    addNotification('Family Update', member.name + ' has been removed from the family', 'info');
+                }
+            }
+        }
+
+        function deleteChore(id) {
+            if (appData.userRole !== 'parent') {
+                alert('Only parents can delete chores');
+                return;
+            }
+
+            if (confirm('Are you sure you want to delete this chore?')) {
+                var chore = null;
+                for (var i = 0; i < appData.chores.length; i++) {
+                    if (appData.chores[i].id === id) {
+                        chore = appData.chores[i];
+                        break;
+                    }
+                }
+                
+                if (chore) {
+                    var member = null;
+                    for (var i = 0; i < appData.familyMembers.length; i++) {
+                        if (appData.familyMembers[i].id === chore.assigneeId) {
+                            member = appData.familyMembers[i];
+                            break;
+                        }
+                    }
+                    
+                    if (member) {
+                        member.totalChores--;
+                        if (chore.completed) {
+                            member.completedChores--;
+                        }
+                    }
+                }
+                
+                appData.chores = appData.chores.filter(function(c) {
+                    return c.id !== id;
+                });
+                
+                updateStats();
+                renderChores();
+                renderFamilyMembers();
+                checkWeeklyCompletion();
+            }
+        }
+
+        function addNotification(title, message, type, photo) {
+            var notification = {
                 id: Date.now(),
                 title: title,
                 message: message,
                 type: type,
-                photo: photo,
+                photo: photo || null,
                 timestamp: new Date()
             };
-            notifications.unshift(notification);
             
-            if (notifications.length > 50) {
-                notifications = notifications.slice(0, 50);
+            appData.notifications.unshift(notification);
+            
+            if (appData.notifications.length > 50) {
+                appData.notifications = appData.notifications.slice(0, 50);
             }
             
             renderNotifications();
-            showNotificationsBriefly();
-        }
-
-        function renderNotifications() {
-            const container = document.getElementById('notificationsList');
             
-            if (notifications.length === 0) {
-                container.innerHTML = '<div style="padding: 20px; text-align: center; color: #666;">No notifications yet</div>';
-                return;
-            }
-
-            container.innerHTML = notifications.map(notification => `
-                <div class="notification-item">
-                    <div class="notification-title">${notification.title}</div>
-                    <div class="notification-message">${notification.message}</div>
-                    ${notification.photo ? `<img src="${notification.photo}" class="notification-photo" alt="Completion photo">` : ''}
-                    <div class="notification-time">${formatTime(notification.timestamp)}</div>
-                </div>
-            `).join('');
-        }
-
-        function showNotificationsBriefly() {
-            // Auto-show notifications panel briefly for new notifications
-            if (userRole === 'parent') {
+            // Auto-show for parents
+            if (appData.userRole === 'parent' && type === 'completion') {
                 showNotifications();
                 setTimeout(hideNotifications, 3000);
             }
         }
 
+        function renderNotifications() {
+            if (!elements.notificationsList) return;
+            
+            if (appData.notifications.length === 0) {
+                elements.notificationsList.innerHTML = '<div style="padding: 20px; text-align: center; color: #666;">No notifications yet</div>';
+                return;
+            }
+
+            var html = '';
+            for (var i = 0; i < appData.notifications.length; i++) {
+                var notification = appData.notifications[i];
+                html += '<div class="notification-item">' +
+                    '<div class="notification-title">' + notification.title + '</div>' +
+                    '<div class="notification-message">' + notification.message + '</div>' +
+                    (notification.photo ? '<img src="' + notification.photo + '" style="width: 100%; max-width: 200px; border-radius: 8px; margin-top: 10px;" alt="Completion photo">' : '') +
+                    '<div class="notification-time">' + formatTime(notification.timestamp) + '</div>' +
+                    '</div>';
+            }
+            elements.notificationsList.innerHTML = html;
+        }
+
         function toggleNotifications() {
-            const panel = document.getElementById('notificationsPanel');
-            if (panel.style.display === 'block') {
+            if (elements.notificationsPanel.style.display === 'block') {
                 hideNotifications();
             } else {
                 showNotifications();
@@ -896,54 +1055,250 @@
         }
 
         function showNotifications() {
-            document.getElementById('notificationsPanel').style.display = 'block';
+            if (elements.notificationsPanel) {
+                elements.notificationsPanel.style.display = 'block';
+            }
         }
 
         function hideNotifications() {
-            document.getElementById('notificationsPanel').style.display = 'none';
+            if (elements.notificationsPanel) {
+                elements.notificationsPanel.style.display = 'none';
+            }
         }
 
-        // Photo capture functionality
-        function takeCompletionPhoto(choreId) {
-            currentChoreForPhoto = choreId;
-            document.getElementById('cameraInput').click();
+        function updateStats() {
+            var totalChores = appData.chores.length;
+            var completedChores = 0;
+            var overdueChores = 0;
+            var now = new Date();
+            
+            for (var i = 0; i < appData.chores.length; i++) {
+                if (appData.chores[i].completed) {
+                    completedChores++;
+                } else if (new Date(appData.chores[i].dueDate) < now) {
+                    overdueChores++;
+                }
+            }
+            
+            if (elements.totalChores) elements.totalChores.textContent = totalChores;
+            if (elements.completedChores) elements.completedChores.textContent = completedChores;
+            if (elements.overdueChores) elements.overdueChores.textContent = overdueChores;
+            if (elements.familyMembers) elements.familyMembers.textContent = appData.familyMembers.length;
         }
 
-        function handlePhotoCapture(event) {
-            const file = event.target.files[0];
-            if (!file || !currentChoreForPhoto) return;
+        function renderFamilyMembers() {
+            if (!elements.familyMembersList) return;
+            
+            if (appData.familyMembers.length === 0) {
+                elements.familyMembersList.innerHTML = '<div class="empty-state"><h3>No family members added yet</h3><p>Add family members to get started</p></div>';
+                return;
+            }
 
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const photoData = e.target.result;
-                completeChoreWithPhoto(currentChoreForPhoto, photoData);
-                currentChoreForPhoto = null;
-            };
-            reader.readAsDataURL(file);
+            var html = '';
+            for (var i = 0; i < appData.familyMembers.length; i++) {
+                var member = appData.familyMembers[i];
+                var rate = member.totalChores > 0 ? Math.round((member.completedChores / member.totalChores) * 100) : 0;
+                
+                html += '<div class="member-card">' +
+                    '<div class="member-header">' +
+                    '<div>' +
+                    '<div class="member-role">' + member.role.charAt(0).toUpperCase() + member.role.slice(1) + '</div>' +
+                    '<div class="member-name">' + member.name + '</div>' +
+                    (member.email ? '<div style="font-size: 0.8em; color: #666;">📧 ' + member.email + '</div>' : '') +
+                    '</div>' +
+                    (appData.userRole === 'parent' ? '<button class="btn btn-small btn-danger" onclick="removeFamilyMember(' + member.id + ')">Remove</button>' : '') +
+                    '</div>' +
+                    '<div class="member-stats">' +
+                    '<span>Total: ' + member.totalChores + '</span>' +
+                    '<span>Done: ' + member.completedChores + '</span>' +
+                    '<span>Rate: ' + rate + '%</span>' +
+                    '</div>' +
+                    '</div>';
+            }
+            elements.familyMembersList.innerHTML = html;
         }
 
-        function completeChoreWithPhoto(choreId, photoData) {
-            const chore = chores.find(c => c.id === choreId);
-            if (!chore) return;
+        function renderChores() {
+            if (!elements.choresList) return;
+            
+            if (appData.chores.length === 0) {
+                elements.choresList.innerHTML = '<div class="empty-state"><h3>No chores assigned yet</h3><p>Add some chores to get started</p></div>';
+                return;
+            }
 
-            chore.completed = true;
-            chore.completionPhoto = photoData;
-            chore.completedAt = new Date().toISOString();
+            // Filter chores based on user role
+            var filteredChores = appData.chores;
+            if (appData.userRole === 'child') {
+                filteredChores = [];
+                var currentUser = null;
+                for (var i = 0; i < appData.familyMembers.length; i++) {
+                    if (appData.familyMembers[i].role === 'child') {
+                        currentUser = appData.familyMembers[i];
+                        break;
+                    }
+                }
+                
+                if (currentUser) {
+                    for (var i = 0; i < appData.chores.length; i++) {
+                        if (appData.chores[i].assigneeId === currentUser.id) {
+                            filteredChores.push(appData.chores[i]);
+                        }
+                    }
+                }
+            }
 
-            // Stop reminders
-            stopChoreReminders(choreId);
+            // Sort chores
+            filteredChores.sort(function(a, b) {
+                if (a.completed !== b.completed) return a.completed ? 1 : -1;
+                return new Date(a.dueDate) - new Date(b.dueDate);
+            });
 
-            // Update member stats
-            const member = familyMembers.find(m => m.id === chore.assigneeId);
-            if (member) {
-                member.completedChores++;
+            var html = '';
+            var now = new Date();
+            
+            for (var i = 0; i < filteredChores.length; i++) {
+                var chore = filteredChores[i];
+                var choreDateTime = new Date(chore.dueDate + 'T' + (chore.startTime || '09:00'));
+                var isOverdue = !chore.completed && now > choreDateTime;
+                var isActive = !chore.completed && Math.abs(now - choreDateTime) < 3600000;
+                var dueDate = new Date(chore.dueDate).toLocaleDateString();
+                
+                var classes = 'chore-item';
+                if (chore.completed) classes += ' completed';
+                if (isOverdue) classes += ' overdue';
+                
+                html += '<div class="' + classes + '">' +
+                    '<div class="chore-title">' + chore.title + '</div>' +
+                    '<div class="chore-meta">' +
+                    '<span>👤 ' + chore.assigneeName + '</span>' +
+                    '<span>📅 ' + dueDate + '</span>' +
+                    '<span>⏰ ' + chore.startTime + '</span>' +
+                    '<span>🔥 ' + chore.priority + '</span>' +
+                    (chore.completed ? '<span>✅ Done</span>' : '') +
+                    (isOverdue ? '<span style="color: #ff6b6b;">⚠️ Overdue</span>' : '') +
+                    (isActive ? '<span style="color: #ffa726;">🔔 Active</span>' : '') +
+                    '</div>' +
+                    (chore.completionPhoto ? '<img src="' + chore.completionPhoto + '" class="completion-photo" alt="Completion photo">' : '') +
+                    '<div class="chore-actions">';
+                
+                if (appData.userRole === 'child' && !chore.completed) {
+                    html += '<button class="btn btn-small btn-photo" onclick="takeCompletionPhoto(' + chore.id + ')">📸 Complete with Photo</button>';
+                } else {
+                    html += '<button class="btn btn-small ' + (chore.completed ? 'btn-success' : '') + '" onclick="toggleChore(' + chore.id + ')">' +
+                        (chore.completed ? 'Mark Incomplete' : 'Mark Complete') + '</button>';
+                }
+                
+                if (appData.userRole === 'parent') {
+                    html += '<button class="btn btn-small btn-danger" onclick="deleteChore(' + chore.id + ')">Delete</button>';
+                }
+                
+                html += '</div></div>';
+            }
+            
+            elements.choresList.innerHTML = html;
+        }
 
-                // Notify parents with photo
-                const parents = familyMembers.filter(m => m.role === 'parent');
-                parents.forEach(parent => {
-                    sendNotification(
-                        `✅ ${chore.title} Complete!`,
-                        `${member.name} finished: ${chore.title}`,
-                        photoData
-                    );
-                });
+        function updateAssigneeDropdown() {
+            if (!elements.choreAssignee) return;
+            
+            var html = '<option value="">Select child to assign chore</option>';
+            for (var i = 0; i < appData.familyMembers.length; i++) {
+                if (appData.familyMembers[i].role === 'child') {
+                    html += '<option value="' + appData.familyMembers[i].id + '">' + appData.familyMembers[i].name + '</option>';
+                }
+            }
+            elements.choreAssignee.innerHTML = html;
+        }
+
+        function checkWeeklyCompletion() {
+            var now = new Date();
+            var startOfWeek = new Date(now);
+            startOfWeek.setDate(now.getDate() - now.getDay());
+            startOfWeek.setHours(0, 0, 0, 0);
+            
+            var weeklyChores = [];
+            for (var i = 0; i < appData.chores.length; i++) {
+                var choreDate = new Date(appData.chores[i].dueDate);
+                if (choreDate >= startOfWeek && choreDate <= now) {
+                    weeklyChores.push(appData.chores[i]);
+                }
+            }
+            
+            var completedWeeklyChores = [];
+            for (var i = 0; i < weeklyChores.length; i++) {
+                if (weeklyChores[i].completed) {
+                    completedWeeklyChores.push(weeklyChores[i]);
+                }
+            }
+            
+            var progressPercentage = weeklyChores.length > 0 ? 
+                Math.round((completedWeeklyChores.length / weeklyChores.length) * 100) : 0;
+            
+            // Update progress bar
+            if (elements.weekProgressFill) {
+                elements.weekProgressFill.style.width = progressPercentage + '%';
+            }
+            if (elements.weekProgressText) {
+                elements.weekProgressText.textContent = 
+                    progressPercentage + '% Complete (' + completedWeeklyChores.length + '/' + weeklyChores.length + ' chores)';
+            }
+            
+            // Check if all weekly chores are completed
+            if (weeklyChores.length > 0 && completedWeeklyChores.length === weeklyChores.length) {
+                showCelebration();
+            }
+        }
+
+        function showCelebration() {
+            // Send celebration notification to all family members
+            for (var i = 0; i < appData.familyMembers.length; i++) {
+                addNotification(
+                    '🎉 Weekly Goal Achieved!',
+                    'Congratulations ' + appData.familyMembers[i].name + '! All weekly chores are complete!',
+                    'celebration'
+                );
+            }
+            
+            alert('🎉 Congratulations! All weekly chores have been completed! Great teamwork! 🌟');
+        }
+
+        function formatTime(date) {
+            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        // Make functions globally accessible for onclick handlers
+        window.toggleChore = toggleChore;
+        window.takeCompletionPhoto = takeCompletionPhoto;
+        window.removeFamilyMember = removeFamilyMember;
+        window.deleteChore = deleteChore;
+
+        // Initialize the app
+        function init() {
+            console.log('Initializing app...');
+            
+            // Set default due date to today
+            var today = new Date().toISOString().split('T')[0];
+            if (elements.choreDueDate) {
+                elements.choreDueDate.value = today;
+            }
+            
+            setupEventListeners();
+            updateStats();
+            renderFamilyMembers();
+            renderChores();
+            updateAssigneeDropdown();
+            
+            console.log('App initialized successfully');
+        }
+
+        // Start the app when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+
+        console.log('Script loaded successfully');
+    </script>
+</body>
+</html>
