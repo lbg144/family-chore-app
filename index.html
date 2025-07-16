@@ -1,4 +1,13 @@
-<!DOCTYPE html>
+                if (appData.userRole === 'child' && !chore.completed) {
+                    html += '<button class="btn btn-small btn-photo" onclick="takeCompletionPhoto(' + chore.id + ')">📸 Complete with Photo</button>';
+                } else if (appData.isAdmin) {
+                    html += '<button class="btn btn-small ' + (chore.completed ? 'btn-success' : '') + '" onclick="toggleChore(' + chore.id + ')">' +
+                        (chore.completed ? 'Mark Incomplete' : 'Mark Complete') + '</button>';
+                }
+                
+                if (appData.isAdmin) {
+                    html += '<button class="btn btn-small btn-danger" onclick="deleteChore(' + chore.id + ')">Delete</button>';
+                }<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -474,21 +483,48 @@
             <div class="section" id="roleSection">
                 <h2 class="section-title">Choose Your Role</h2>
                 <div class="form-row">
-                    <button class="btn" id="parentBtn">👨‍👩‍👧‍👦 Parent</button>
+                    <button class="btn" id="parentBtn">👨‍👩‍👧‍👦 Parent Admin</button>
                     <button class="btn" id="childBtn">👶 Child</button>
+                </div>
+                <div style="margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 12px; font-size: 0.9em; color: #666;">
+                    <strong>Note:</strong> Only Parent Admins can invite other family members and manage chores. Children can only complete assigned chores.
                 </div>
             </div>
 
-            <!-- Add Family Member Section (Parent Only) -->
+            <!-- Family Invitations Section (Parent Only) -->
+            <div class="section hidden" id="inviteSection">
+                <h2 class="section-title">Invite Family Members</h2>
+                <div class="form-group">
+                    <input type="text" id="inviteName" placeholder="Family member name" />
+                </div>
+                <div class="form-group">
+                    <select id="inviteRole">
+                        <option value="child">Child</option>
+                        <option value="parent">Parent (Admin)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="tel" id="invitePhone" placeholder="Phone number (e.g., +1234567890)" />
+                </div>
+                <div class="form-row">
+                    <button class="btn" id="sendInviteBtn">📱 Send Text Invite</button>
+                    <button class="btn" id="addDirectBtn">➕ Add Directly</button>
+                </div>
+                <div style="margin-top: 10px; font-size: 0.85em; color: #666;">
+                    Text invite will send them a link to join your family chore app
+                </div>
+            </div>
+
+            <!-- Add Family Member Section (Parent Only) - Hidden by default -->
             <div class="section hidden" id="addMemberSection">
-                <h2 class="section-title">Add Family Member</h2>
+                <h2 class="section-title">Manually Add Family Member</h2>
                 <div class="form-group">
                     <input type="text" id="memberName" placeholder="Enter family member name" />
                 </div>
                 <div class="form-group">
                     <select id="memberRole">
                         <option value="child">Child</option>
-                        <option value="parent">Parent</option>
+                        <option value="parent">Parent (Admin)</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -584,7 +620,9 @@
             chores: [],
             notifications: [],
             userRole: null,
-            currentChoreForPhoto: null
+            currentChoreForPhoto: null,
+            isAdmin: false,
+            invitations: []
         };
 
         // DOM elements
@@ -594,16 +632,22 @@
             roleSection: document.getElementById('roleSection'),
             roleIndicator: document.getElementById('roleIndicator'),
             currentRole: document.getElementById('currentRole'),
+            inviteSection: document.getElementById('inviteSection'),
             addMemberSection: document.getElementById('addMemberSection'),
             addChoreSection: document.getElementById('addChoreSection'),
             addMemberBtn: document.getElementById('addMemberBtn'),
             addChoreBtn: document.getElementById('addChoreBtn'),
+            sendInviteBtn: document.getElementById('sendInviteBtn'),
+            addDirectBtn: document.getElementById('addDirectBtn'),
             notificationBtn: document.getElementById('notificationBtn'),
             closeNotifications: document.getElementById('closeNotifications'),
             notificationsPanel: document.getElementById('notificationsPanel'),
             memberName: document.getElementById('memberName'),
             memberRole: document.getElementById('memberRole'),
             memberEmail: document.getElementById('memberEmail'),
+            inviteName: document.getElementById('inviteName'),
+            inviteRole: document.getElementById('inviteRole'),
+            invitePhone: document.getElementById('invitePhone'),
             choreTitle: document.getElementById('choreTitle'),
             choreAssignee: document.getElementById('choreAssignee'),
             chorePriority: document.getElementById('chorePriority'),
@@ -649,6 +693,22 @@
                 elements.addChoreBtn.addEventListener('click', addChore);
             }
 
+            if (elements.sendInviteBtn) {
+                elements.sendInviteBtn.addEventListener('click', sendTextInvite);
+            }
+
+            if (elements.addDirectBtn) {
+                elements.addDirectBtn.addEventListener('click', function() {
+                    // Show manual add section
+                    if (elements.addMemberSection) {
+                        elements.addMemberSection.classList.remove('hidden');
+                    }
+                    if (elements.inviteSection) {
+                        elements.inviteSection.classList.add('hidden');
+                    }
+                });
+            }
+
             if (elements.notificationBtn) {
                 elements.notificationBtn.addEventListener('click', toggleNotifications);
             }
@@ -674,6 +734,7 @@
         function setUserRole(role) {
             console.log('Setting role to:', role);
             appData.userRole = role;
+            appData.isAdmin = (role === 'parent');
             
             if (elements.roleSection) {
                 elements.roleSection.classList.add('hidden');
@@ -684,26 +745,108 @@
             }
             
             if (elements.currentRole) {
-                elements.currentRole.textContent = role.charAt(0).toUpperCase() + role.slice(1);
+                var roleText = role === 'parent' ? 'Parent Admin' : 'Child';
+                elements.currentRole.textContent = roleText;
             }
             
-            // Show parent-only sections
+            // Show parent-admin-only sections
             if (role === 'parent') {
-                if (elements.addMemberSection) {
-                    elements.addMemberSection.classList.remove('hidden');
+                if (elements.inviteSection) {
+                    elements.inviteSection.classList.remove('hidden');
                 }
                 if (elements.addChoreSection) {
                     elements.addChoreSection.classList.remove('hidden');
                 }
             }
             
-            addNotification('Welcome!', 'You are logged in as a ' + role, 'info');
+            addNotification('Welcome!', 'You are logged in as a ' + (role === 'parent' ? 'Parent Admin' : 'Child'), 'info');
             updateStats();
             renderFamilyMembers();
             renderChores();
         }
 
-        function addFamilyMember() {
+        function sendTextInvite() {
+            var name = elements.inviteName.value.trim();
+            var role = elements.inviteRole.value;
+            var phone = elements.invitePhone.value.trim();
+            
+            if (!name) {
+                alert('Please enter a name');
+                return;
+            }
+            
+            if (!phone) {
+                alert('Please enter a phone number');
+                return;
+            }
+            
+            // Clean phone number (remove spaces, dashes, etc.)
+            var cleanPhone = phone.replace(/[^\d+]/g, '');
+            
+            // Create invitation
+            var invitation = {
+                id: Date.now(),
+                name: name,
+                role: role,
+                phone: cleanPhone,
+                invited: new Date().toISOString(),
+                accepted: false
+            };
+            
+            appData.invitations.push(invitation);
+            
+            // Create invitation message
+            var appUrl = window.location.origin + window.location.pathname;
+            var roleText = role === 'parent' ? 'Parent Admin' : 'Child';
+            
+            var message = 'Hi ' + name + '! You\'ve been invited to join our Family Chore Manager as a ' + roleText + '. ' +
+                'Install the app: ' + appUrl + ' ' +
+                'Then tap "Add to Home Screen" in Safari to install it like an app. ' +
+                'Your invite code: ' + invitation.id;
+            
+            // Create SMS link
+            var smsUrl = 'sms:' + cleanPhone + '?&body=' + encodeURIComponent(message);
+            
+            // Try to open SMS app
+            try {
+                window.location.href = smsUrl;
+                
+                // Clear form
+                elements.inviteName.value = '';
+                elements.invitePhone.value = '';
+                
+                addNotification('Invite Sent!', 'Text invitation sent to ' + name + ' (' + phone + ')', 'success');
+                
+                // Show them the invite was created
+                setTimeout(function() {
+                    alert('Text invitation sent to ' + name + '!\n\nThey will receive:\n- App link\n- Installation instructions\n- Invite code: ' + invitation.id);
+                }, 500);
+                
+            } catch (error) {
+                // Fallback - copy to clipboard and show instructions
+                copyToClipboard(message);
+                alert('SMS not available. Message copied to clipboard!\n\nPlease paste and send this text to ' + name + ' (' + phone + '):\n\n' + message);
+            }
+        }
+
+        function copyToClipboard(text) {
+            // Try modern clipboard API
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text);
+            } else {
+                // Fallback for older browsers
+                var textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-999999px';
+                textArea.style.top = '-999999px';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                document.execCommand('copy');
+                textArea.remove();
+            }
+        }
             var name = elements.memberName.value.trim();
             var role = elements.memberRole.value;
             var email = elements.memberEmail.value.trim();
@@ -743,6 +886,12 @@
         }
 
         function addChore() {
+            // Only admins can add chores
+            if (!appData.isAdmin) {
+                alert('Only Parent Admins can create chores');
+                return;
+            }
+            
             var title = elements.choreTitle.value.trim();
             var assigneeId = elements.choreAssignee.value;
             var priority = elements.chorePriority.value;
@@ -774,6 +923,12 @@
                 }
             }
             
+            // Only allow assigning to children
+            if (assignee && assignee.role === 'parent') {
+                alert('Chores can only be assigned to children');
+                return;
+            }
+            
             var chore = {
                 id: Date.now(),
                 title: title,
@@ -785,7 +940,8 @@
                 frequency: frequency,
                 reminderInterval: reminderInterval,
                 completed: false,
-                createdAt: new Date().toISOString()
+                createdAt: new Date().toISOString(),
+                createdBy: appData.userRole
             };
 
             appData.chores.push(chore);
@@ -925,6 +1081,12 @@
         }
 
         function removeFamilyMember(id) {
+            // Only admins can remove family members
+            if (!appData.isAdmin) {
+                alert('Only Parent Admins can remove family members');
+                return;
+            }
+            
             if (confirm('Are you sure you want to remove this family member?')) {
                 var member = null;
                 for (var i = 0; i < appData.familyMembers.length; i++) {
@@ -958,8 +1120,9 @@
         }
 
         function deleteChore(id) {
-            if (appData.userRole !== 'parent') {
-                alert('Only parents can delete chores');
+            // Only admins can delete chores
+            if (!appData.isAdmin) {
+                alert('Only Parent Admins can delete chores');
                 return;
             }
 
@@ -1102,11 +1265,13 @@
                 html += '<div class="member-card">' +
                     '<div class="member-header">' +
                     '<div>' +
-                    '<div class="member-role">' + member.role.charAt(0).toUpperCase() + member.role.slice(1) + '</div>' +
+                    '<div class="member-role">' + 
+                    (member.role === 'parent' ? 'Parent Admin' : 'Child') + 
+                    '</div>' +
                     '<div class="member-name">' + member.name + '</div>' +
                     (member.email ? '<div style="font-size: 0.8em; color: #666;">📧 ' + member.email + '</div>' : '') +
                     '</div>' +
-                    (appData.userRole === 'parent' ? '<button class="btn btn-small btn-danger" onclick="removeFamilyMember(' + member.id + ')">Remove</button>' : '') +
+                    (appData.isAdmin ? '<button class="btn btn-small btn-danger" onclick="removeFamilyMember(' + member.id + ')">Remove</button>' : '') +
                     '</div>' +
                     '<div class="member-stats">' +
                     '<span>Total: ' + member.totalChores + '</span>' +
