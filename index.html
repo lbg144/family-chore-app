@@ -125,13 +125,96 @@
             display: none !important;
         }
 
-        .info-box {
-            margin-top: 15px;
+        .member-card {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
             padding: 15px;
-            background: #f8f9fa;
             border-radius: 12px;
-            font-size: 0.9em;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .member-info {
+            flex: 1;
+        }
+
+        .member-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .member-role {
+            font-size: 0.8em;
             color: #666;
+        }
+
+        .chore-item {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .chore-item.completed {
+            border-left-color: #4ecdc4;
+            background: #f0fffe;
+        }
+
+        .chore-item.overdue {
+            border-left-color: #ff6b6b;
+            background: #fff5f5;
+        }
+
+        .chore-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .chore-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .chore-meta {
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        .chore-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .btn-small {
+            padding: 8px 12px;
+            font-size: 0.8em;
+            width: auto;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+        }
+
+        .btn-photo {
+            background: linear-gradient(135deg, #ffa726 0%, #ff7043 100%);
+        }
+
+        .hidden-input {
+            position: absolute;
+            left: -9999px;
+            opacity: 0;
         }
 
         .invite-section {
@@ -198,10 +281,69 @@
                         Parent will have full admin access to manage chores and family
                     </div>
                 </div>
+            <!-- Chore Management Section (Parent Only) -->
+            <div class="section hidden" id="choreSection">
+                <h2 class="section-title">Manage Chores</h2>
+                
+                <div class="invite-section">
+                    <h3>➕ Create New Chore</h3>
+                    <div class="form-group">
+                        <input type="text" id="choreTitle" placeholder="Chore title (e.g., Clean your room)" />
+                    </div>
+                    <div class="form-group">
+                        <select id="choreAssignee">
+                            <option value="">Select child to assign chore</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <select id="chorePriority">
+                            <option value="low">Low Priority</option>
+                            <option value="medium">Medium Priority</option>
+                            <option value="high">High Priority</option>
+                        </select>
+                        <input type="date" id="choreDueDate" />
+                    </div>
+                    <div class="form-row">
+                        <input type="time" id="choreStartTime" value="09:00" />
+                        <select id="choreFrequency">
+                            <option value="once">One Time</option>
+                            <option value="daily">Daily</option>
+                            <option value="weekly">Weekly</option>
+                        </select>
+                    </div>
+                    <button class="btn" onclick="addChore()">Create Chore</button>
+                </div>
             </div>
 
-            <!-- Test Status -->
-            <div class="section">
+            <!-- Family Members Display -->
+            <div class="section hidden" id="familySection">
+                <h2 class="section-title">Family Members</h2>
+                <div id="familyMembersList">
+                    <div style="padding: 20px; background: #f8f9fa; border-radius: 12px; text-align: center; color: #666;">
+                        No family members added yet. Use the invite buttons above to add family members.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chores List -->
+            <div class="section hidden" id="choresListSection">
+                <h2 class="section-title">Current Chores</h2>
+                <div id="choresList">
+                    <div style="padding: 20px; background: #f8f9fa; border-radius: 12px; text-align: center; color: #666;">
+                        No chores assigned yet. Create chores above to get started.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Child View -->
+            <div class="section hidden" id="childSection">
+                <h2 class="section-title">My Chores</h2>
+                <div id="myChoresList">
+                    <div style="padding: 20px; background: #f8f9fa; border-radius: 12px; text-align: center; color: #666;">
+                        No chores assigned to you yet. Ask your parents to assign you some chores!
+                    </div>
+                </div>
+            </div>
                 <h2 class="section-title">App Status</h2>
                 <div id="statusDisplay" style="padding: 20px; background: #f8f9fa; border-radius: 12px;">
                     App loaded successfully! Buttons should be working now.
@@ -215,6 +357,9 @@
         </div>
     </div>
 
+    <!-- Hidden file input for camera -->
+    <input type="file" id="cameraInput" class="hidden-input" accept="image/*" capture="environment">
+
     <script>
         console.log('Script started loading...');
 
@@ -223,8 +368,33 @@
             userRole: null,
             isAdmin: false,
             familyMembers: [],
-            chores: []
+            chores: [],
+            currentChoreForPhoto: null
         };
+
+        // Show role selection (for switching roles)
+        function showRoleSelection() {
+            var roleSection = document.getElementById('roleSection');
+            var statusSection = document.getElementById('statusSection');
+            var inviteSection = document.getElementById('inviteSection');
+            var choreSection = document.getElementById('choreSection');
+            var familySection = document.getElementById('familySection');
+            var choresListSection = document.getElementById('choresListSection');
+            var childSection = document.getElementById('childSection');
+            var roleIndicator = document.getElementById('roleIndicator');
+            
+            if (roleSection) roleSection.classList.remove('hidden');
+            if (statusSection) statusSection.style.display = 'none';
+            if (inviteSection) inviteSection.classList.add('hidden');
+            if (choreSection) choreSection.classList.add('hidden');
+            if (familySection) familySection.classList.add('hidden');
+            if (choresListSection) choresListSection.classList.add('hidden');
+            if (childSection) childSection.classList.add('hidden');
+            if (roleIndicator) roleIndicator.style.display = 'none';
+            
+            appData.userRole = null;
+            appData.isAdmin = false;
+        }
 
         // Test function to verify JavaScript is working
         function testFunction() {
@@ -245,6 +415,12 @@
                 roleSection.classList.add('hidden');
             }
             
+            // Show status bar
+            var statusSection = document.getElementById('statusSection');
+            if (statusSection) {
+                statusSection.style.display = 'block';
+            }
+            
             // Show role indicator
             var roleIndicator = document.getElementById('roleIndicator');
             if (roleIndicator) {
@@ -256,19 +432,34 @@
                 currentRoleSpan.textContent = role === 'parent' ? 'Parent Admin' : 'Child';
             }
             
-            // Show invite section for parents
+            // Show appropriate sections based on role
             if (role === 'parent') {
                 var inviteSection = document.getElementById('inviteSection');
-                if (inviteSection) {
-                    inviteSection.classList.remove('hidden');
-                }
+                var choreSection = document.getElementById('choreSection');
+                var familySection = document.getElementById('familySection');
+                var choresListSection = document.getElementById('choresListSection');
+                
+                if (inviteSection) inviteSection.classList.remove('hidden');
+                if (choreSection) choreSection.classList.remove('hidden');
+                if (familySection) familySection.classList.remove('hidden');
+                if (choresListSection) choresListSection.classList.remove('hidden');
+            } else {
+                var childSection = document.getElementById('childSection');
+                if (childSection) childSection.classList.remove('hidden');
             }
             
-            // Update status
-            var statusDisplay = document.getElementById('statusDisplay');
-            if (statusDisplay) {
-                statusDisplay.innerHTML = 'Role set to: <strong>' + (role === 'parent' ? 'Parent Admin' : 'Child') + '</strong><br>Buttons are working correctly!';
+            // Set default due date to today
+            var today = new Date().toISOString().split('T')[0];
+            var dueDateInput = document.getElementById('choreDueDate');
+            if (dueDateInput) {
+                dueDateInput.value = today;
             }
+            
+            // Update displays
+            updateFamilyStats();
+            renderFamilyMembers();
+            renderChores();
+            updateAssigneeDropdown();
             
             alert('Welcome! You are now logged in as: ' + (role === 'parent' ? 'Parent Admin' : 'Child'));
         }
@@ -303,6 +494,11 @@
             };
             
             appData.familyMembers.push(childMember);
+            
+            // Update displays
+            updateFamilyStats();
+            renderFamilyMembers();
+            updateAssigneeDropdown();
             
             // Create invite message
             var appUrl = window.location.origin + window.location.pathname;
@@ -385,7 +581,262 @@
             }
         }
 
-        // Check for invite codes on load
+        // Add chore
+        function addChore() {
+            console.log('addChore called');
+            
+            var titleInput = document.getElementById('choreTitle');
+            var assigneeSelect = document.getElementById('choreAssignee');
+            var prioritySelect = document.getElementById('chorePriority');
+            var dueDateInput = document.getElementById('choreDueDate');
+            var startTimeInput = document.getElementById('choreStartTime');
+            var frequencySelect = document.getElementById('choreFrequency');
+            
+            var title = titleInput ? titleInput.value.trim() : '';
+            var assigneeId = assigneeSelect ? assigneeSelect.value : '';
+            var priority = prioritySelect ? prioritySelect.value : 'low';
+            var dueDate = dueDateInput ? dueDateInput.value : '';
+            var startTime = startTimeInput ? startTimeInput.value : '09:00';
+            var frequency = frequencySelect ? frequencySelect.value : 'once';
+            
+            if (!title) {
+                alert('Please enter a chore title');
+                return;
+            }
+            
+            if (!assigneeId) {
+                alert('Please select a child to assign the chore to');
+                return;
+            }
+            
+            if (!dueDate) {
+                alert('Please select a due date');
+                return;
+            }
+            
+            // Find assignee
+            var assignee = null;
+            for (var i = 0; i < appData.familyMembers.length; i++) {
+                if (appData.familyMembers[i].id == assigneeId) {
+                    assignee = appData.familyMembers[i];
+                    break;
+                }
+            }
+            
+            // Create chore
+            var chore = {
+                id: Date.now(),
+                title: title,
+                assigneeId: assigneeId,
+                assigneeName: assignee ? assignee.name : 'Unknown',
+                priority: priority,
+                dueDate: dueDate,
+                startTime: startTime,
+                frequency: frequency,
+                completed: false,
+                createdAt: new Date().toISOString()
+            };
+            
+            appData.chores.push(chore);
+            
+            // Clear form
+            if (titleInput) titleInput.value = '';
+            if (assigneeSelect) assigneeSelect.value = '';
+            if (prioritySelect) prioritySelect.value = 'low';
+            if (startTimeInput) startTimeInput.value = '09:00';
+            if (frequencySelect) frequencySelect.value = 'once';
+            
+            // Update displays
+            updateFamilyStats();
+            renderChores();
+            
+            alert('Chore "' + title + '" has been assigned to ' + (assignee ? assignee.name : 'Unknown') + '!');
+        }
+
+        // Update family stats
+        function updateFamilyStats() {
+            var familyStats = document.getElementById('familyStats');
+            if (familyStats) {
+                var memberCount = appData.familyMembers.length;
+                var choreCount = appData.chores.length;
+                var completedCount = appData.chores.filter(function(c) { return c.completed; }).length;
+                
+                familyStats.textContent = 'Family: ' + memberCount + ' members, ' + choreCount + ' chores (' + completedCount + ' completed)';
+            }
+        }
+
+        // Render family members
+        function renderFamilyMembers() {
+            var container = document.getElementById('familyMembersList');
+            if (!container) return;
+            
+            if (appData.familyMembers.length === 0) {
+                container.innerHTML = '<div style="padding: 20px; background: #f8f9fa; border-radius: 12px; text-align: center; color: #666;">No family members added yet. Use the invite buttons above to add family members.</div>';
+                return;
+            }
+            
+            var html = '';
+            for (var i = 0; i < appData.familyMembers.length; i++) {
+                var member = appData.familyMembers[i];
+                html += '<div class="member-card">' +
+                    '<div class="member-info">' +
+                    '<div class="member-name">' + member.name + '</div>' +
+                    '<div class="member-role">' + (member.role === 'parent' ? 'Parent Admin' : 'Child') + 
+                    (member.status === 'invited' ? ' (Invited)' : '') + '</div>' +
+                    '</div>' +
+                    (appData.isAdmin ? '<button class="btn btn-small btn-danger" onclick="removeFamilyMember(\'' + member.id + '\')">Remove</button>' : '') +
+                    '</div>';
+            }
+            container.innerHTML = html;
+        }
+
+        // Render chores
+        function renderChores() {
+            var parentContainer = document.getElementById('choresList');
+            var childContainer = document.getElementById('myChoresList');
+            
+            if (appData.userRole === 'parent' && parentContainer) {
+                if (appData.chores.length === 0) {
+                    parentContainer.innerHTML = '<div style="padding: 20px; background: #f8f9fa; border-radius: 12px; text-align: center; color: #666;">No chores assigned yet. Create chores above to get started.</div>';
+                    return;
+                }
+                
+                var html = '';
+                for (var i = 0; i < appData.chores.length; i++) {
+                    var chore = appData.chores[i];
+                    var isOverdue = !chore.completed && new Date(chore.dueDate) < new Date();
+                    
+                    html += '<div class="chore-item' + (chore.completed ? ' completed' : '') + (isOverdue ? ' overdue' : '') + '">' +
+                        '<div class="chore-header">' +
+                        '<div>' +
+                        '<div class="chore-title">' + chore.title + '</div>' +
+                        '<div class="chore-meta">Assigned to: ' + chore.assigneeName + ' | Due: ' + new Date(chore.dueDate).toLocaleDateString() + 
+                        ' | Priority: ' + chore.priority + (chore.completed ? ' | ✅ Completed' : '') + (isOverdue ? ' | ⚠️ Overdue' : '') + '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="chore-actions">' +
+                        '<button class="btn btn-small ' + (chore.completed ? 'btn-success' : '') + '" onclick="toggleChore(\'' + chore.id + '\')">' +
+                        (chore.completed ? 'Mark Incomplete' : 'Mark Complete') + '</button>' +
+                        '<button class="btn btn-small btn-danger" onclick="deleteChore(\'' + chore.id + '\')">Delete</button>' +
+                        '</div>' +
+                        '</div>';
+                }
+                parentContainer.innerHTML = html;
+            }
+            
+            if (appData.userRole === 'child' && childContainer) {
+                // Filter chores for current child (for demo, show all chores)
+                var myChores = appData.chores.filter(function(chore) {
+                    return !chore.completed; // Show incomplete chores
+                });
+                
+                if (myChores.length === 0) {
+                    childContainer.innerHTML = '<div style="padding: 20px; background: #f8f9fa; border-radius: 12px; text-align: center; color: #666;">No chores assigned to you yet. Ask your parents to assign you some chores!</div>';
+                    return;
+                }
+                
+                var html = '';
+                for (var i = 0; i < myChores.length; i++) {
+                    var chore = myChores[i];
+                    var isOverdue = new Date(chore.dueDate) < new Date();
+                    
+                    html += '<div class="chore-item' + (isOverdue ? ' overdue' : '') + '">' +
+                        '<div class="chore-title">' + chore.title + '</div>' +
+                        '<div class="chore-meta">Due: ' + new Date(chore.dueDate).toLocaleDateString() + ' at ' + chore.startTime + 
+                        ' | Priority: ' + chore.priority + (isOverdue ? ' | ⚠️ Overdue' : '') + '</div>' +
+                        '<div class="chore-actions">' +
+                        '<button class="btn btn-small btn-photo" onclick="takeCompletionPhoto(\'' + chore.id + '\')">📸 Complete with Photo</button>' +
+                        '</div>' +
+                        '</div>';
+                }
+                childContainer.innerHTML = html;
+            }
+        }
+
+        // Update assignee dropdown
+        function updateAssigneeDropdown() {
+            var select = document.getElementById('choreAssignee');
+            if (!select) return;
+            
+            var children = appData.familyMembers.filter(function(member) {
+                return member.role === 'child';
+            });
+            
+            var html = '<option value="">Select child to assign chore</option>';
+            for (var i = 0; i < children.length; i++) {
+                html += '<option value="' + children[i].id + '">' + children[i].name + '</option>';
+            }
+            select.innerHTML = html;
+        }
+
+        // Toggle chore completion
+        function toggleChore(choreId) {
+            for (var i = 0; i < appData.chores.length; i++) {
+                if (appData.chores[i].id == choreId) {
+                    appData.chores[i].completed = !appData.chores[i].completed;
+                    break;
+                }
+            }
+            updateFamilyStats();
+            renderChores();
+        }
+
+        // Delete chore
+        function deleteChore(choreId) {
+            if (confirm('Are you sure you want to delete this chore?')) {
+                appData.chores = appData.chores.filter(function(chore) {
+                    return chore.id != choreId;
+                });
+                updateFamilyStats();
+                renderChores();
+            }
+        }
+
+        // Remove family member
+        function removeFamilyMember(memberId) {
+            if (confirm('Are you sure you want to remove this family member?')) {
+                appData.familyMembers = appData.familyMembers.filter(function(member) {
+                    return member.id != memberId;
+                });
+                updateFamilyStats();
+                renderFamilyMembers();
+                updateAssigneeDropdown();
+            }
+        }
+
+        // Photo completion
+        function takeCompletionPhoto(choreId) {
+            appData.currentChoreForPhoto = choreId;
+            var cameraInput = document.getElementById('cameraInput');
+            if (cameraInput) {
+                cameraInput.click();
+            }
+        }
+
+        // Handle photo capture
+        function handlePhotoCapture(event) {
+            var file = event.target.files[0];
+            if (!file || !appData.currentChoreForPhoto) return;
+
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                // Mark chore as completed
+                for (var i = 0; i < appData.chores.length; i++) {
+                    if (appData.chores[i].id == appData.currentChoreForPhoto) {
+                        appData.chores[i].completed = true;
+                        appData.chores[i].completionPhoto = e.target.result;
+                        break;
+                    }
+                }
+                
+                appData.currentChoreForPhoto = null;
+                updateFamilyStats();
+                renderChores();
+                
+                alert('Great job! Chore completed with photo! 🎉');
+            };
+            reader.readAsDataURL(file);
+        }
         function checkForInviteCode() {
             var urlParams = new URLSearchParams(window.location.search);
             var inviteCode = urlParams.get('invite');
@@ -415,6 +866,12 @@
         // Initialize app
         function init() {
             console.log('App initializing...');
+            
+            // Add camera input event listener
+            var cameraInput = document.getElementById('cameraInput');
+            if (cameraInput) {
+                cameraInput.addEventListener('change', handlePhotoCapture);
+            }
             
             // Check for invite codes first
             checkForInviteCode();
