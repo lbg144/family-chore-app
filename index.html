@@ -51,52 +51,9 @@
             opacity: 0.9;
         }
 
-        .notification-btn {
-            position: absolute;
-            top: 70px;
-            right: 20px;
-            background: rgba(255,255,255,0.2);
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 0.8em;
-            cursor: pointer;
-            border: none;
-            color: white;
-        }
-
         .main-content {
             padding: 20px;
             padding-bottom: 100px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            padding: 20px 15px;
-            border-radius: 16px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .stat-number {
-            font-size: 2em;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
-            color: #666;
-            font-size: 0.8em;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 600;
         }
 
         .section {
@@ -108,38 +65,19 @@
             color: #333;
             margin-bottom: 15px;
             font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .section-title::before {
-            content: '';
-            width: 3px;
-            height: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 2px;
         }
 
         .form-group {
             margin-bottom: 15px;
         }
 
-        .form-group input, .form-group select {
+        .form-group input {
             width: 100%;
             padding: 16px;
             border: 2px solid #e0e0e0;
             border-radius: 12px;
             font-size: 16px;
             background: white;
-            -webkit-appearance: none;
-            appearance: none;
-        }
-
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         .form-row {
@@ -169,135 +107,6 @@
             background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
         }
 
-        .btn-small {
-            padding: 10px 16px;
-            font-size: 14px;
-            width: auto;
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-        }
-
-        .btn-success {
-            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
-        }
-
-        .btn-photo {
-            background: linear-gradient(135deg, #ffa726 0%, #ff7043 100%);
-            margin-top: 10px;
-        }
-
-        .family-members {
-            display: grid;
-            gap: 15px;
-        }
-
-        .member-card {
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            padding: 20px;
-            border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .member-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
-        }
-
-        .member-name {
-            font-size: 1.2em;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .member-role {
-            background: rgba(255,255,255,0.8);
-            padding: 4px 12px;
-            border-radius: 16px;
-            font-size: 0.8em;
-            font-weight: 600;
-            display: inline-block;
-            margin-bottom: 10px;
-        }
-
-        .member-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
-            font-size: 0.9em;
-            color: #666;
-            margin-bottom: 15px;
-        }
-
-        .chores-list {
-            display: grid;
-            gap: 15px;
-        }
-
-        .chore-item {
-            background: white;
-            padding: 20px;
-            border-radius: 16px;
-            border-left: 4px solid #667eea;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .chore-item.completed {
-            border-left-color: #4ecdc4;
-            background: #f0fffe;
-        }
-
-        .chore-item.overdue {
-            border-left-color: #ff6b6b;
-            background: #fff5f5;
-        }
-
-        .chore-title {
-            font-size: 1.1em;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .chore-meta {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            font-size: 0.85em;
-            color: #666;
-            margin-bottom: 15px;
-        }
-
-        .chore-actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .completion-photo {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-top: 10px;
-            border: 2px solid #4ecdc4;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: #666;
-        }
-
-        .empty-state h3 {
-            margin-bottom: 10px;
-            color: #333;
-        }
-
         .role-indicator {
             position: fixed;
             bottom: 20px;
@@ -312,115 +121,8 @@
             display: none;
         }
 
-        .hidden-input {
-            position: absolute;
-            left: -9999px;
-            opacity: 0;
-        }
-
         .hidden {
             display: none !important;
-        }
-
-        .week-progress {
-            background: #f8f9fa;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 25px;
-        }
-
-        .week-progress h3 {
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 1.1em;
-        }
-
-        .progress-bar {
-            background: #e0e0e0;
-            height: 8px;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 10px;
-        }
-
-        .progress-fill {
-            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
-            height: 100%;
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .progress-text {
-            font-size: 0.9em;
-            color: #666;
-            text-align: center;
-        }
-
-        .notifications-panel {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            display: none;
-        }
-
-        .notifications-content {
-            position: absolute;
-            top: 100px;
-            left: 20px;
-            right: 20px;
-            max-height: calc(100vh - 120px);
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        }
-
-        .notifications-header {
-            padding: 20px;
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            color: white;
-            font-weight: 700;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        .notifications-list {
-            max-height: calc(100vh - 220px);
-            overflow-y: auto;
-        }
-
-        .notification-item {
-            padding: 20px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .notification-title {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .notification-message {
-            color: #666;
-            margin-bottom: 5px;
-        }
-
-        .notification-time {
-            font-size: 0.8em;
-            color: #999;
         }
 
         .info-box {
@@ -431,6 +133,18 @@
             font-size: 0.9em;
             color: #666;
         }
+
+        .invite-section {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+
+        .invite-section h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
     </style>
 </head>
 <body>
@@ -438,158 +152,59 @@
         <div class="header">
             <h1>🏠 Family Chores</h1>
             <p>Smart chore management for busy families</p>
-            <button class="notification-btn" id="notificationBtn">🔔</button>
         </div>
 
         <div class="main-content">
-            <!-- Stats Section -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number" id="totalChores">0</div>
-                    <div class="stat-label">Total Chores</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="completedChores">0</div>
-                    <div class="stat-label">Completed</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="overdueChores">0</div>
-                    <div class="stat-label">Overdue</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="familyMembers">0</div>
-                    <div class="stat-label">Family</div>
-                </div>
-            </div>
-
-            <!-- Week Progress -->
-            <div class="week-progress">
-                <h3>📅 This Week's Progress</h3>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="weekProgressFill"></div>
-                </div>
-                <div class="progress-text" id="weekProgressText">0% Complete</div>
-            </div>
-
             <!-- Role Selection -->
             <div class="section" id="roleSection">
                 <h2 class="section-title">Choose Your Role</h2>
                 <div class="form-row">
-                    <button class="btn" id="parentBtn">👨‍👩‍👧‍👦 Parent Admin</button>
-                    <button class="btn" id="childBtn">👶 Child</button>
+                    <button class="btn" onclick="setUserRole('parent')">👨‍👩‍👧‍👦 Parent Admin</button>
+                    <button class="btn" onclick="setUserRole('child')">👶 Child</button>
                 </div>
                 <div class="info-box">
                     <strong>Note:</strong> Only Parent Admins can invite other family members and manage chores. Children can only complete assigned chores.
                 </div>
             </div>
 
-            <!-- Family Invitations Section (Parent Only) -->
+            <!-- Invite Section (Parent Only) -->
             <div class="section hidden" id="inviteSection">
                 <h2 class="section-title">Invite Family Members</h2>
                 
-                <!-- Invite Child Section -->
-                <div style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); padding: 20px; border-radius: 16px; margin-bottom: 20px;">
-                    <h3 style="margin-bottom: 15px; color: #333;">👶 Invite a Child</h3>
+                <div class="invite-section">
+                    <h3>👶 Invite a Child</h3>
                     <div class="form-group">
                         <input type="text" id="childName" placeholder="Child's name" />
                     </div>
                     <div class="form-group">
                         <input type="tel" id="childPhone" placeholder="Child's phone number" />
                     </div>
-                    <button class="btn" id="inviteChildBtn">📱 Send Child Invitation</button>
+                    <button class="btn" onclick="sendChildInvite()">📱 Send Child Invitation</button>
                     <div style="margin-top: 10px; font-size: 0.85em; color: #666;">
                         Child will be automatically assigned the "Child" role and their first chore will be to install the app
                     </div>
                 </div>
 
-                <!-- Invite Parent Section -->
-                <div style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); padding: 20px; border-radius: 16px; margin-bottom: 20px;">
-                    <h3 style="margin-bottom: 15px; color: #333;">👨‍👩‍👧‍👦 Invite Another Parent Admin</h3>
+                <div class="invite-section">
+                    <h3>👨‍👩‍👧‍👦 Invite Another Parent Admin</h3>
                     <div class="form-group">
                         <input type="text" id="parentName" placeholder="Parent's name" />
                     </div>
                     <div class="form-group">
                         <input type="tel" id="parentPhone" placeholder="Parent's phone number" />
                     </div>
-                    <button class="btn" id="inviteParentBtn">📱 Send Parent Invitation</button>
+                    <button class="btn" onclick="sendParentInvite()">📱 Send Parent Invitation</button>
                     <div style="margin-top: 10px; font-size: 0.85em; color: #666;">
                         Parent will have full admin access to manage chores and family
                     </div>
                 </div>
-
-                <button class="btn" id="addDirectBtn" style="background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);">➕ Add Member Directly (Manual)</button>
             </div>
 
-            <!-- Add Family Member Section (Parent Only) -->
-            <div class="section hidden" id="addMemberSection">
-                <h2 class="section-title">Manually Add Family Member</h2>
-                <div class="form-group">
-                    <input type="text" id="memberName" placeholder="Enter family member name" />
-                </div>
-                <div class="form-group">
-                    <select id="memberRole">
-                        <option value="child">Child</option>
-                        <option value="parent">Parent (Admin)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <input type="email" id="memberEmail" placeholder="Email for notifications (optional)" />
-                </div>
-                <button class="btn" id="addMemberBtn">Add Member</button>
-            </div>
-
-            <!-- Family Members Section -->
+            <!-- Test Status -->
             <div class="section">
-                <h2 class="section-title">Family Members</h2>
-                <div class="family-members" id="familyMembersList">
-                    <div class="empty-state">
-                        <h3>No family members added yet</h3>
-                        <p>Add family members to get started</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Add Chore Section (Parent Only) -->
-            <div class="section hidden" id="addChoreSection">
-                <h2 class="section-title">Add New Chore</h2>
-                <div class="form-group">
-                    <input type="text" id="choreTitle" placeholder="Chore title" />
-                </div>
-                <div class="form-group">
-                    <select id="choreAssignee">
-                        <option value="">Select child to assign chore</option>
-                    </select>
-                </div>
-                <div class="form-row">
-                    <select id="chorePriority">
-                        <option value="low">Low Priority</option>
-                        <option value="medium">Medium Priority</option>
-                        <option value="high">High Priority</option>
-                    </select>
-                    <select id="choreFrequency">
-                        <option value="once">One Time</option>
-                        <option value="daily">Daily</option>
-                        <option value="weekly">Weekly</option>
-                    </select>
-                </div>
-                <div class="form-row">
-                    <input type="date" id="choreDueDate" />
-                    <input type="time" id="choreStartTime" />
-                </div>
-                <div class="form-group">
-                    <input type="number" id="reminderInterval" placeholder="Reminder interval (minutes)" value="60" min="15" max="240" />
-                </div>
-                <button class="btn" id="addChoreBtn">Add Chore</button>
-            </div>
-
-            <!-- Chores List Section -->
-            <div class="section">
-                <h2 class="section-title">Current Chores</h2>
-                <div class="chores-list" id="choresList">
-                    <div class="empty-state">
-                        <h3>No chores assigned yet</h3>
-                        <p>Add some chores to get started</p>
-                    </div>
+                <h2 class="section-title">App Status</h2>
+                <div id="statusDisplay" style="padding: 20px; background: #f8f9fa; border-radius: 12px;">
+                    App loaded successfully! Buttons should be working now.
                 </div>
             </div>
         </div>
@@ -600,289 +215,73 @@
         </div>
     </div>
 
-    <!-- Hidden file input for camera -->
-    <input type="file" id="cameraInput" class="hidden-input" accept="image/*" capture="environment">
-
-    <!-- Notifications Panel -->
-    <div class="notifications-panel" id="notificationsPanel">
-        <div class="notifications-content">
-            <div class="notifications-header">
-                <span>📢 Notifications</span>
-                <button class="close-btn" id="closeNotifications">×</button>
-            </div>
-            <div class="notifications-list" id="notificationsList">
-                <div style="padding: 20px; text-align: center; color: #666;">No notifications yet</div>
-            </div>
-        </div>
-    </div>
-
     <script>
-        // App data with simple family system (no localStorage)
+        console.log('Script started loading...');
+
+        // Simple app data
         var appData = {
-            familyMembers: [],
-            chores: [],
-            notifications: [],
             userRole: null,
-            currentChoreForPhoto: null,
             isAdmin: false,
-            invitations: [],
-            familyId: null
+            familyMembers: [],
+            chores: []
         };
 
-        // Generate unique IDs
-        function generateId() {
-            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        // Test function to verify JavaScript is working
+        function testFunction() {
+            console.log('Test function called successfully!');
+            alert('JavaScript is working!');
         }
 
-        // Simple family data sharing (in-memory only)
-        function saveFamilyData() {
-            // In a real app, this would save to a database
-            // For now, just store in memory during session
-            console.log('Family data updated');
-        }
-
-        function createNewFamily() {
-            appData.familyId = generateId();
-            return appData.familyId;
-        }
-
-        // DOM elements
-        var elements = {
-            parentBtn: document.getElementById('parentBtn'),
-            childBtn: document.getElementById('childBtn'),
-            roleSection: document.getElementById('roleSection'),
-            roleIndicator: document.getElementById('roleIndicator'),
-            currentRole: document.getElementById('currentRole'),
-            inviteSection: document.getElementById('inviteSection'),
-            addMemberSection: document.getElementById('addMemberSection'),
-            addChoreSection: document.getElementById('addChoreSection'),
-            addMemberBtn: document.getElementById('addMemberBtn'),
-            addChoreBtn: document.getElementById('addChoreBtn'),
-            inviteChildBtn: document.getElementById('inviteChildBtn'),
-            inviteParentBtn: document.getElementById('inviteParentBtn'),
-            addDirectBtn: document.getElementById('addDirectBtn'),
-            notificationBtn: document.getElementById('notificationBtn'),
-            closeNotifications: document.getElementById('closeNotifications'),
-            notificationsPanel: document.getElementById('notificationsPanel'),
-            memberName: document.getElementById('memberName'),
-            memberRole: document.getElementById('memberRole'),
-            memberEmail: document.getElementById('memberEmail'),
-            childName: document.getElementById('childName'),
-            childPhone: document.getElementById('childPhone'),
-            parentName: document.getElementById('parentName'),
-            parentPhone: document.getElementById('parentPhone'),
-            choreTitle: document.getElementById('choreTitle'),
-            choreAssignee: document.getElementById('choreAssignee'),
-            chorePriority: document.getElementById('chorePriority'),
-            choreFrequency: document.getElementById('choreFrequency'),
-            choreDueDate: document.getElementById('choreDueDate'),
-            choreStartTime: document.getElementById('choreStartTime'),
-            reminderInterval: document.getElementById('reminderInterval'),
-            familyMembersList: document.getElementById('familyMembersList'),
-            choresList: document.getElementById('choresList'),
-            totalChores: document.getElementById('totalChores'),
-            completedChores: document.getElementById('completedChores'),
-            overdueChores: document.getElementById('overdueChores'),
-            familyMembers: document.getElementById('familyMembers'),
-            weekProgressFill: document.getElementById('weekProgressFill'),
-            weekProgressText: document.getElementById('weekProgressText'),
-            notificationsList: document.getElementById('notificationsList'),
-            cameraInput: document.getElementById('cameraInput')
-        };
-
-        // Event listeners
-        function setupEventListeners() {
-            if (elements.parentBtn) {
-                elements.parentBtn.addEventListener('click', function() {
-                    setUserRole('parent');
-                });
-            }
-
-            if (elements.childBtn) {
-                elements.childBtn.addEventListener('click', function() {
-                    setUserRole('child');
-                });
-            }
-
-            if (elements.addMemberBtn) {
-                elements.addMemberBtn.addEventListener('click', addFamilyMember);
-            }
-
-            if (elements.addChoreBtn) {
-                elements.addChoreBtn.addEventListener('click', addChore);
-            }
-
-            if (elements.inviteChildBtn) {
-                elements.inviteChildBtn.addEventListener('click', sendChildInvite);
-            }
-
-            if (elements.inviteParentBtn) {
-                elements.inviteParentBtn.addEventListener('click', sendParentInvite);
-            }
-
-            if (elements.addDirectBtn) {
-                elements.addDirectBtn.addEventListener('click', function() {
-                    if (elements.addMemberSection) {
-                        elements.addMemberSection.classList.remove('hidden');
-                    }
-                    if (elements.inviteSection) {
-                        elements.inviteSection.classList.add('hidden');
-                    }
-                });
-            }
-
-            if (elements.notificationBtn) {
-                elements.notificationBtn.addEventListener('click', toggleNotifications);
-            }
-
-            if (elements.closeNotifications) {
-                elements.closeNotifications.addEventListener('click', hideNotifications);
-            }
-
-            if (elements.cameraInput) {
-                elements.cameraInput.addEventListener('change', handlePhotoCapture);
-            }
-
-            if (elements.notificationsPanel) {
-                elements.notificationsPanel.addEventListener('click', function(e) {
-                    if (e.target === elements.notificationsPanel) {
-                        hideNotifications();
-                    }
-                });
-            }
-        }
-
+        // Set user role
         function setUserRole(role) {
-            console.log('Setting user role to:', role);
+            console.log('setUserRole called with:', role);
+            
             appData.userRole = role;
             appData.isAdmin = (role === 'parent');
             
-            // Create family if first user
-            if (!appData.familyId) {
-                createNewFamily();
+            // Hide role selection
+            var roleSection = document.getElementById('roleSection');
+            if (roleSection) {
+                roleSection.classList.add('hidden');
             }
             
-            if (elements.roleSection) {
-                elements.roleSection.classList.add('hidden');
+            // Show role indicator
+            var roleIndicator = document.getElementById('roleIndicator');
+            if (roleIndicator) {
+                roleIndicator.style.display = 'block';
             }
             
-            if (elements.roleIndicator) {
-                elements.roleIndicator.style.display = 'block';
+            var currentRoleSpan = document.getElementById('currentRole');
+            if (currentRoleSpan) {
+                currentRoleSpan.textContent = role === 'parent' ? 'Parent Admin' : 'Child';
             }
             
-            if (elements.currentRole) {
-                var roleText = role === 'parent' ? 'Parent Admin' : 'Child';
-                elements.currentRole.textContent = roleText;
-            }
-            
+            // Show invite section for parents
             if (role === 'parent') {
-                if (elements.inviteSection) {
-                    elements.inviteSection.classList.remove('hidden');
-                }
-                if (elements.addChoreSection) {
-                    elements.addChoreSection.classList.remove('hidden');
+                var inviteSection = document.getElementById('inviteSection');
+                if (inviteSection) {
+                    inviteSection.classList.remove('hidden');
                 }
             }
             
-            addNotification('Welcome!', 'You are logged in as a ' + (role === 'parent' ? 'Parent Admin' : 'Child'), 'info');
-            
-            updateStats();
-            renderFamilyMembers();
-            renderChores();
-        }
-
-        // Check for invite code in URL when app loads
-        function checkForInviteCode() {
-            var urlParams = new URLSearchParams(window.location.search);
-            var inviteCode = urlParams.get('invite');
-            var role = urlParams.get('role');
-            var name = urlParams.get('name');
-            var familyId = urlParams.get('family');
-            
-            if (inviteCode && role && name && familyId) {
-                handleInviteAcceptance(inviteCode, role, name, familyId);
-                return true;
-            }
-            return false;
-        }
-
-        function handleInviteAcceptance(inviteCode, role, name, familyId) {
-            // For demo purposes, create the child if they don't exist
-            if (role === 'child') {
-                // Find existing child member
-                var childMember = null;
-                for (var i = 0; i < appData.familyMembers.length; i++) {
-                    if (appData.familyMembers[i].inviteCode == inviteCode) {
-                        childMember = appData.familyMembers[i];
-                        break;
-                    }
-                }
-                
-                if (!childMember) {
-                    // Create child if not found
-                    childMember = {
-                        id: generateId(),
-                        name: name,
-                        role: 'child',
-                        email: '',
-                        totalChores: 1,
-                        completedChores: 0,
-                        isAdmin: false,
-                        inviteCode: inviteCode,
-                        status: 'active'
-                    };
-                    appData.familyMembers.push(childMember);
-                    
-                    // Create install chore
-                    var installChore = {
-                        id: generateId(),
-                        title: '📱 Install Family Chores App',
-                        assigneeId: childMember.id,
-                        assigneeName: name,
-                        priority: 'high',
-                        dueDate: new Date().toISOString().split('T')[0],
-                        startTime: '09:00',
-                        frequency: 'once',
-                        reminderInterval: 60,
-                        completed: false,
-                        createdAt: new Date().toISOString(),
-                        createdBy: 'system',
-                        isInstallChore: true
-                    };
-                    appData.chores.push(installChore);
-                }
-                
-                setUserRole('child');
-                
-                if (elements.roleSection) {
-                    elements.roleSection.style.display = 'none';
-                }
-                
-                addNotification('Welcome ' + name + '!', 'Complete your chores by taking photos!', 'welcome');
-                
-                setTimeout(function() {
-                    alert('Welcome ' + name + '! 🎉\n\n' +
-                        'Your first chore is to:\n' +
-                        '1. Tap the Share button in Safari\n' +
-                        '2. Select "Add to Home Screen"\n' +
-                        '3. Name it "Family Chores"\n' +
-                        '4. Take a photo of your home screen showing the new app\n' +
-                        '5. Complete the chore with that photo!');
-                }, 1000);
-                
-            } else if (role === 'parent') {
-                addNotification('Welcome!', 'You\'ve joined the family as a Parent Admin.', 'welcome');
+            // Update status
+            var statusDisplay = document.getElementById('statusDisplay');
+            if (statusDisplay) {
+                statusDisplay.innerHTML = 'Role set to: <strong>' + (role === 'parent' ? 'Parent Admin' : 'Child') + '</strong><br>Buttons are working correctly!';
             }
             
-            updateStats();
-            renderFamilyMembers();
-            renderChores();
-            updateAssigneeDropdown();
+            alert('Welcome! You are now logged in as: ' + (role === 'parent' ? 'Parent Admin' : 'Child'));
         }
 
+        // Send child invite
         function sendChildInvite() {
-            var name = elements.childName.value.trim();
-            var phone = elements.childPhone.value.trim();
+            console.log('sendChildInvite called');
+            
+            var nameInput = document.getElementById('childName');
+            var phoneInput = document.getElementById('childPhone');
+            
+            var name = nameInput ? nameInput.value.trim() : '';
+            var phone = phoneInput ? phoneInput.value.trim() : '';
             
             if (!name) {
                 alert('Please enter the child\'s name');
@@ -894,58 +293,20 @@
                 return;
             }
             
-            var cleanPhone = phone.replace(/[^\d+]/g, '');
-            
-            var invitation = {
-                id: generateId(),
-                name: name,
-                role: 'child',
-                phone: cleanPhone,
-                invited: new Date().toISOString(),
-                accepted: false
-            };
-            
-            appData.invitations.push(invitation);
-            
-            // IMMEDIATELY add child to family when invite is sent
+            // Add child immediately to family
             var childMember = {
-                id: generateId(),
+                id: Date.now(),
                 name: name,
                 role: 'child',
-                email: '',
-                totalChores: 1, // They start with 1 chore (install app)
-                completedChores: 0,
-                isAdmin: false,
-                inviteCode: invitation.id,
-                status: 'invited' // Track that they're invited but not yet active
+                status: 'invited',
+                phone: phone
             };
             
             appData.familyMembers.push(childMember);
             
-            // Create their first chore: install the app
-            var installChore = {
-                id: generateId(),
-                title: '📱 Install Family Chores App',
-                assigneeId: childMember.id,
-                assigneeName: name,
-                priority: 'high',
-                dueDate: new Date().toISOString().split('T')[0], // Today
-                startTime: '09:00',
-                frequency: 'once',
-                reminderInterval: 60,
-                completed: false,
-                createdAt: new Date().toISOString(),
-                createdBy: 'system',
-                isInstallChore: true
-            };
-            
-            appData.chores.push(installChore);
-            
-            // Save family data immediately
-            saveFamilyData();
-            
-            var baseUrl = window.location.origin + window.location.pathname;
-            var inviteUrl = baseUrl + '?invite=' + invitation.id + '&role=child&name=' + encodeURIComponent(name) + '&family=' + appData.familyId;
+            // Create invite message
+            var appUrl = window.location.origin + window.location.pathname;
+            var inviteUrl = appUrl + '?invite=' + childMember.id + '&role=child&name=' + encodeURIComponent(name);
             
             var message = 'Hi ' + name + '! 🏠\n\n' +
                 'You\'ve been invited to join our Family Chore Manager! \n\n' +
@@ -953,40 +314,36 @@
                 'Your first chore will be to install the app on your phone\'s home screen. Easy! 📱\n\n' +
                 'From: Family Chore Manager';
             
-            var smsUrl = 'sms:' + cleanPhone + '?&body=' + encodeURIComponent(message);
+            // Try to open SMS
+            var smsUrl = 'sms:' + phone.replace(/[^\d+]/g, '') + '?&body=' + encodeURIComponent(message);
             
             try {
                 window.location.href = smsUrl;
-                elements.childName.value = '';
-                elements.childPhone.value = '';
                 
-                // Update UI immediately to show new child
-                updateStats();
-                renderFamilyMembers();
-                renderChores();
-                updateAssigneeDropdown();
+                // Clear form
+                if (nameInput) nameInput.value = '';
+                if (phoneInput) phoneInput.value = '';
                 
-                addNotification('Child Invite Sent!', 'Invitation sent to ' + name + ' (' + phone + '). They\'ve been added to your family!', 'success');
-                
-                setTimeout(function() {
-                    alert('Child invitation sent to ' + name + '! 🎉\n\n' +
-                        '✅ ' + name + ' has been added to your family\n' +
-                        '✅ Their install chore has been created\n' +
-                        '✅ You can now assign them more chores\n' +
-                        '✅ You\'ll see their progress when they complete tasks\n\n' +
-                        'When they click the link, they\'ll connect to your family automatically!\n\n' +
-                        'Invite code: ' + invitation.id);
-                }, 500);
+                alert('Invitation sent to ' + name + '! 🎉\n\n' +
+                    '✅ ' + name + ' has been added to your family\n' +
+                    '✅ They will get a text with the app link\n' +
+                    '✅ Their first chore will be to install the app\n\n' +
+                    'Total family members: ' + appData.familyMembers.length);
                 
             } catch (error) {
-                copyToClipboard(message);
-                alert('SMS not available. Message copied to clipboard!\n\nPlease paste and send this text to ' + name + ' (' + phone + ')');
+                alert('Could not open SMS app. Please manually send this message to ' + name + ':\n\n' + message);
             }
         }
 
+        // Send parent invite
         function sendParentInvite() {
-            var name = elements.parentName.value.trim();
-            var phone = elements.parentPhone.value.trim();
+            console.log('sendParentInvite called');
+            
+            var nameInput = document.getElementById('parentName');
+            var phoneInput = document.getElementById('parentPhone');
+            
+            var name = nameInput ? nameInput.value.trim() : '';
+            var phone = phoneInput ? phoneInput.value.trim() : '';
             
             if (!name) {
                 alert('Please enter the parent\'s name');
@@ -998,22 +355,9 @@
                 return;
             }
             
-            var cleanPhone = phone.replace(/[^\d+]/g, '');
-            
-            var invitation = {
-                id: generateId(),
-                name: name,
-                role: 'parent',
-                phone: cleanPhone,
-                invited: new Date().toISOString(),
-                accepted: false
-            };
-            
-            appData.invitations.push(invitation);
-            saveFamilyData();
-            
-            var baseUrl = window.location.origin + window.location.pathname;
-            var inviteUrl = baseUrl + '?invite=' + invitation.id + '&role=parent&name=' + encodeURIComponent(name) + '&family=' + appData.familyId;
+            // Create invite message
+            var appUrl = window.location.origin + window.location.pathname;
+            var inviteUrl = appUrl + '?invite=' + Date.now() + '&role=parent&name=' + encodeURIComponent(name);
             
             var message = 'Hi ' + name + '! 👨‍👩‍👧‍👦\n\n' +
                 'You\'ve been invited to be a Parent Admin for our Family Chore Manager!\n\n' +
@@ -1021,981 +365,71 @@
                 'As a Parent Admin, you\'ll be able to:\n' +
                 '• Create and assign chores\n' +
                 '• Invite family members\n' +
-                '• Track completion with photos\n' +
-                '• See all family members and their progress\n\n' +
+                '• Track completion with photos\n\n' +
                 'From: Family Chore Manager';
             
-            var smsUrl = 'sms:' + cleanPhone + '?&body=' + encodeURIComponent(message);
+            // Try to open SMS
+            var smsUrl = 'sms:' + phone.replace(/[^\d+]/g, '') + '?&body=' + encodeURIComponent(message);
             
             try {
                 window.location.href = smsUrl;
-                elements.parentName.value = '';
-                elements.parentPhone.value = '';
-                addNotification('Parent Invite Sent!', 'Admin invitation sent to ' + name + ' (' + phone + ')', 'success');
                 
-                setTimeout(function() {
-                    alert('Parent Admin invitation sent to ' + name + '! 🎉\n\n' +
-                        'They will have full admin access to:\n' +
-                        '• Manage family members\n' +
-                        '• Create and assign chores\n' +
-                        '• View all completion photos\n' +
-                        '• See the same family data as you\n\n' +
-                        'Invite code: ' + invitation.id);
-                }, 500);
+                // Clear form
+                if (nameInput) nameInput.value = '';
+                if (phoneInput) phoneInput.value = '';
+                
+                alert('Parent Admin invitation sent to ' + name + '! 🎉');
                 
             } catch (error) {
-                copyToClipboard(message);
-                alert('SMS not available. Message copied to clipboard!\n\nPlease paste and send this text to ' + name + ' (' + phone + ')');
+                alert('Could not open SMS app. Please manually send this message to ' + name + ':\n\n' + message);
             }
         }
 
-        function copyToClipboard(text) {
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text);
-            } else {
-                var textArea = document.createElement('textarea');
-                textArea.value = text;
-                textArea.style.position = 'fixed';
-                textArea.style.left = '-999999px';
-                textArea.style.top = '-999999px';
-                document.body.appendChild(textArea);
-                textArea.focus();
-                textArea.select();
-                document.execCommand('copy');
-                textArea.remove();
+        // Check for invite codes on load
+        function checkForInviteCode() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var inviteCode = urlParams.get('invite');
+            var role = urlParams.get('role');
+            var name = urlParams.get('name');
+            
+            if (inviteCode && role && name) {
+                // Automatically set role for invited users
+                setUserRole(role);
+                
+                if (role === 'child') {
+                    setTimeout(function() {
+                        alert('Welcome ' + name + '! 🎉\n\n' +
+                            'Your first chore is to:\n' +
+                            '1. Tap the Share button in Safari\n' +
+                            '2. Select "Add to Home Screen"\n' +
+                            '3. Name it "Family Chores"\n' +
+                            '4. Take a photo of your home screen showing the new app\n' +
+                            '5. Complete the chore with that photo!');
+                    }, 1000);
+                }
+                return true;
             }
+            return false;
         }
 
-        function addFamilyMember() {
-            if (!appData.isAdmin) {
-                alert('Only Parent Admins can add family members');
-                return;
-            }
-            
-            var name = elements.memberName.value.trim();
-            var role = elements.memberRole.value;
-            var email = elements.memberEmail.value.trim();
-            
-            if (!name) {
-                alert('Please enter a family member name');
-                return;
-            }
-
-            for (var i = 0; i < appData.familyMembers.length; i++) {
-                if (appData.familyMembers[i].name === name) {
-                    alert('Family member already exists');
-                    return;
-                }
-            }
-
-            var member = {
-                id: generateId(),
-                name: name,
-                role: role,
-                email: email,
-                totalChores: 0,
-                completedChores: 0,
-                isAdmin: (role === 'parent'),
-                status: 'active'
-            };
-
-            appData.familyMembers.push(member);
-            
-            // Save family data
-            saveFamilyData();
-            
-            elements.memberName.value = '';
-            elements.memberEmail.value = '';
-            
-            if (elements.addMemberSection) {
-                elements.addMemberSection.classList.add('hidden');
-            }
-            if (elements.inviteSection) {
-                elements.inviteSection.classList.remove('hidden');
-            }
-            
-            updateStats();
-            renderFamilyMembers();
-            updateAssigneeDropdown();
-            addNotification('Family Update', name + ' has been added to the family as a ' + (role === 'parent' ? 'Parent Admin' : 'Child') + '!', 'success');
-        }
-
-        function addChore() {
-            if (!appData.isAdmin) {
-                alert('Only Parent Admins can create chores');
-                return;
-            }
-            
-            var title = elements.choreTitle.value.trim();
-            var assigneeId = elements.choreAssignee.value;
-            var priority = elements.chorePriority.value;
-            var dueDate = elements.choreDueDate.value;
-            var startTime = elements.choreStartTime.value;
-            var frequency = elements.choreFrequency.value;
-            var reminderInterval = parseInt(elements.reminderInterval.value) || 60;
-
-            if (!title) {
-                alert('Please enter a chore title');
-                return;
-            }
-
-            if (!dueDate) {
-                alert('Please select a due date');
-                return;
-            }
-
-            if (!assigneeId) {
-                alert('Please select a child to assign the chore to');
-                return;
-            }
-
-            var assignee = null;
-            for (var i = 0; i < appData.familyMembers.length; i++) {
-                if (appData.familyMembers[i].id == assigneeId) {
-                    assignee = appData.familyMembers[i];
-                    break;
-                }
-            }
-            
-            if (assignee && assignee.role === 'parent') {
-                alert('Chores can only be assigned to children');
-                return;
-            }
-            
-            var chore = {
-                id: generateId(),
-                title: title,
-                assigneeId: assigneeId,
-                assigneeName: assignee ? assignee.name : 'Unassigned',
-                priority: priority,
-                dueDate: dueDate,
-                startTime: startTime || '09:00',
-                frequency: frequency,
-                reminderInterval: reminderInterval,
-                completed: false,
-                createdAt: new Date().toISOString(),
-                createdBy: appData.userRole
-            };
-
-            appData.chores.push(chore);
-            
-            if (assignee) {
-                assignee.totalChores++;
-            }
-
-            // Save family data
-            saveFamilyData();
-
-            elements.choreTitle.value = '';
-            elements.choreAssignee.value = '';
-            elements.chorePriority.value = 'low';
-            elements.choreStartTime.value = '';
-            elements.choreFrequency.value = 'once';
-            elements.reminderInterval.value = '60';
-
-            updateStats();
-            renderChores();
-            renderFamilyMembers();
-            
-            if (assignee) {
-                addNotification('New Chore', title + ' has been assigned to ' + assignee.name, 'info');
-            }
-        }
-
-        function toggleChore(choreId) {
-            var chore = null;
-            for (var i = 0; i < appData.chores.length; i++) {
-                if (appData.chores[i].id === choreId) {
-                    chore = appData.chores[i];
-                    break;
-                }
-            }
-            
-            if (!chore) return;
-
-            if (appData.userRole === 'child' && !chore.completed) {
-                takeCompletionPhoto(choreId);
-                return;
-            }
-
-            chore.completed = !chore.completed;
-            
-            var member = null;
-            for (var i = 0; i < appData.familyMembers.length; i++) {
-                if (appData.familyMembers[i].id === chore.assigneeId) {
-                    member = appData.familyMembers[i];
-                    break;
-                }
-            }
-            
-            if (member) {
-                if (chore.completed) {
-                    member.completedChores++;
-                } else {
-                    member.completedChores--;
-                }
-            }
-            
-            // Save family data
-            saveFamilyData();
-            
-            updateStats();
-            renderChores();
-            renderFamilyMembers();
-            checkWeeklyCompletion();
-        }
-
-        function completeChoreWithPhoto(choreId, photoData) {
-            var chore = null;
-            for (var i = 0; i < appData.chores.length; i++) {
-                if (appData.chores[i].id === choreId) {
-                    chore = appData.chores[i];
-                    break;
-                }
-            }
-            if (!chore) return;
-
-            chore.completed = true;
-            chore.completionPhoto = photoData;
-            chore.completedAt = new Date().toISOString();
-
-            var member = null;
-            for (var i = 0; i < appData.familyMembers.length; i++) {
-                if (appData.familyMembers[i].id === chore.assigneeId) {
-                    member = appData.familyMembers[i];
-                    break;
-                }
-            }
-            
-            if (member) {
-                member.completedChores++;
-                
-                // If this was an install chore, update member status to active
-                if (chore.isInstallChore) {
-                    member.status = 'active';
-                }
-
-                var parents = [];
-                for (var i = 0; i < appData.familyMembers.length; i++) {
-                    if (appData.familyMembers[i].role === 'parent') {
-                        parents.push(appData.familyMembers[i]);
-                    }
-                }
-                
-                for (var i = 0; i < parents.length; i++) {
-                    addNotification(
-                        '✅ ' + chore.title + ' Complete!',
-                        member.name + ' finished: ' + chore.title,
-                        'completion',
-                        photoData
-                    );
-                }
-            }
-
-            // Save family data
-            saveFamilyData();
-
-            updateStats();
-            renderChores();
-            renderFamilyMembers();
-            checkWeeklyCompletion();
-        }
-
-        function removeFamilyMember(id) {
-            if (!appData.isAdmin) {
-                alert('Only Parent Admins can remove family members');
-                return;
-            }
-            
-            if (confirm('Are you sure you want to remove this family member?')) {
-                var member = null;
-                for (var i = 0; i < appData.familyMembers.length; i++) {
-                    if (appData.familyMembers[i].id === id) {
-                        member = appData.familyMembers[i];
-                        break;
-                    }
-                }
-                
-                appData.familyMembers = appData.familyMembers.filter(function(m) {
-                    return m.id !== id;
-                });
-                
-                for (var i = 0; i < appData.chores.length; i++) {
-                    if (appData.chores[i].assigneeId === id) {
-                        appData.chores[i].assigneeId = null;
-                        appData.chores[i].assigneeName = 'Unassigned';
-                    }
-                }
-                
-                // Save family data
-                saveFamilyData();
-                
-                updateStats();
-                renderFamilyMembers();
-                renderChores();
-                updateAssigneeDropdown();
-                
-                if (member) {
-                    addNotification('Family Update', member.name + ' has been removed from the family', 'info');
-                }
-            }
-        }
-
-        function deleteChore(id) {
-            if (!appData.isAdmin) {
-                alert('Only Parent Admins can delete chores');
-                return;
-            }
-
-            if (confirm('Are you sure you want to delete this chore?')) {
-                var chore = null;
-                for (var i = 0; i < appData.chores.length; i++) {
-                    if (appData.chores[i].id === id) {
-                        chore = appData.chores[i];
-                        break;
-                    }
-                }
-                
-                if (chore) {
-                    var member = null;
-                    for (var i = 0; i < appData.familyMembers.length; i++) {
-                        if (appData.familyMembers[i].id === chore.assigneeId) {
-                            member = appData.familyMembers[i];
-                            break;
-                        }
-                    }
-                    
-                    if (member) {
-                        member.totalChores--;
-                        if (chore.completed) {
-                            member.completedChores--;
-                        }
-                    }
-                }
-                
-                appData.chores = appData.chores.filter(function(c) {
-                    return c.id !== id;
-                });
-                
-                // Save family data
-                saveFamilyData();
-                
-                updateStats();
-                renderChores();
-                renderFamilyMembers();
-                checkWeeklyCompletion();
-            }
-        }    return;
-                }
-            }
-
-            var member = {
-                id: Date.now(),
-                name: name,
-                role: role,
-                email: email,
-                totalChores: 0,
-                completedChores: 0,
-                isAdmin: (role === 'parent')
-            };
-
-            appData.familyMembers.push(member);
-            
-            elements.memberName.value = '';
-            elements.memberEmail.value = '';
-            
-            if (elements.addMemberSection) {
-                elements.addMemberSection.classList.add('hidden');
-            }
-            if (elements.inviteSection) {
-                elements.inviteSection.classList.remove('hidden');
-            }
-            
-            updateStats();
-            renderFamilyMembers();
-            updateAssigneeDropdown();
-            addNotification('Family Update', name + ' has been added to the family as a ' + (role === 'parent' ? 'Parent Admin' : 'Child') + '!', 'success');
-        }
-
-        function addChore() {
-            if (!appData.isAdmin) {
-                alert('Only Parent Admins can create chores');
-                return;
-            }
-            
-            var title = elements.choreTitle.value.trim();
-            var assigneeId = elements.choreAssignee.value;
-            var priority = elements.chorePriority.value;
-            var dueDate = elements.choreDueDate.value;
-            var startTime = elements.choreStartTime.value;
-            var frequency = elements.choreFrequency.value;
-            var reminderInterval = parseInt(elements.reminderInterval.value) || 60;
-
-            if (!title) {
-                alert('Please enter a chore title');
-                return;
-            }
-
-            if (!dueDate) {
-                alert('Please select a due date');
-                return;
-            }
-
-            if (!assigneeId) {
-                alert('Please select a child to assign the chore to');
-                return;
-            }
-
-            var assignee = null;
-            for (var i = 0; i < appData.familyMembers.length; i++) {
-                if (appData.familyMembers[i].id == assigneeId) {
-                    assignee = appData.familyMembers[i];
-                    break;
-                }
-            }
-            
-            if (assignee && assignee.role === 'parent') {
-                alert('Chores can only be assigned to children');
-                return;
-            }
-            
-            var chore = {
-                id: Date.now(),
-                title: title,
-                assigneeId: assigneeId,
-                assigneeName: assignee ? assignee.name : 'Unassigned',
-                priority: priority,
-                dueDate: dueDate,
-                startTime: startTime || '09:00',
-                frequency: frequency,
-                reminderInterval: reminderInterval,
-                completed: false,
-                createdAt: new Date().toISOString(),
-                createdBy: appData.userRole
-            };
-
-            appData.chores.push(chore);
-            
-            if (assignee) {
-                assignee.totalChores++;
-            }
-
-            elements.choreTitle.value = '';
-            elements.choreAssignee.value = '';
-            elements.chorePriority.value = 'low';
-            elements.choreStartTime.value = '';
-            elements.choreFrequency.value = 'once';
-            elements.reminderInterval.value = '60';
-
-            updateStats();
-            renderChores();
-            renderFamilyMembers();
-            
-            if (assignee) {
-                addNotification('New Chore', title + ' has been assigned to ' + assignee.name, 'info');
-            }
-        }
-
-        function toggleChore(choreId) {
-            var chore = null;
-            for (var i = 0; i < appData.chores.length; i++) {
-                if (appData.chores[i].id === choreId) {
-                    chore = appData.chores[i];
-                    break;
-                }
-            }
-            
-            if (!chore) return;
-
-            if (appData.userRole === 'child' && !chore.completed) {
-                takeCompletionPhoto(choreId);
-                return;
-            }
-
-            chore.completed = !chore.completed;
-            
-            var member = null;
-            for (var i = 0; i < appData.familyMembers.length; i++) {
-                if (appData.familyMembers[i].id === chore.assigneeId) {
-                    member = appData.familyMembers[i];
-                    break;
-                }
-            }
-            
-            if (member) {
-                if (chore.completed) {
-                    member.completedChores++;
-                } else {
-                    member.completedChores--;
-                }
-            }
-            
-            updateStats();
-            renderChores();
-            renderFamilyMembers();
-            checkWeeklyCompletion();
-        }
-
-        function takeCompletionPhoto(choreId) {
-            appData.currentChoreForPhoto = choreId;
-            if (elements.cameraInput) {
-                elements.cameraInput.click();
-            }
-        }
-
-        function handlePhotoCapture(event) {
-            var file = event.target.files[0];
-            if (!file || !appData.currentChoreForPhoto) return;
-
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                var photoData = e.target.result;
-                completeChoreWithPhoto(appData.currentChoreForPhoto, photoData);
-                appData.currentChoreForPhoto = null;
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function completeChoreWithPhoto(choreId, photoData) {
-            var chore = null;
-            for (var i = 0; i < appData.chores.length; i++) {
-                if (appData.chores[i].id === choreId) {
-                    chore = appData.chores[i];
-                    break;
-                }
-            }
-            if (!chore) return;
-
-            chore.completed = true;
-            chore.completionPhoto = photoData;
-            chore.completedAt = new Date().toISOString();
-
-            var member = null;
-            for (var i = 0; i < appData.familyMembers.length; i++) {
-                if (appData.familyMembers[i].id === chore.assigneeId) {
-                    member = appData.familyMembers[i];
-                    break;
-                }
-            }
-            
-            if (member) {
-                member.completedChores++;
-
-                var parents = [];
-                for (var i = 0; i < appData.familyMembers.length; i++) {
-                    if (appData.familyMembers[i].role === 'parent') {
-                        parents.push(appData.familyMembers[i]);
-                    }
-                }
-                
-                for (var i = 0; i < parents.length; i++) {
-                    addNotification(
-                        '✅ ' + chore.title + ' Complete!',
-                        member.name + ' finished: ' + chore.title,
-                        'completion',
-                        photoData
-                    );
-                }
-            }
-
-            updateStats();
-            renderChores();
-            renderFamilyMembers();
-            checkWeeklyCompletion();
-        }
-
-        function removeFamilyMember(id) {
-            if (!appData.isAdmin) {
-                alert('Only Parent Admins can remove family members');
-                return;
-            }
-            
-            if (confirm('Are you sure you want to remove this family member?')) {
-                var member = null;
-                for (var i = 0; i < appData.familyMembers.length; i++) {
-                    if (appData.familyMembers[i].id === id) {
-                        member = appData.familyMembers[i];
-                        break;
-                    }
-                }
-                
-                appData.familyMembers = appData.familyMembers.filter(function(m) {
-                    return m.id !== id;
-                });
-                
-                for (var i = 0; i < appData.chores.length; i++) {
-                    if (appData.chores[i].assigneeId === id) {
-                        appData.chores[i].assigneeId = null;
-                        appData.chores[i].assigneeName = 'Unassigned';
-                    }
-                }
-                
-                updateStats();
-                renderFamilyMembers();
-                renderChores();
-                updateAssigneeDropdown();
-                
-                if (member) {
-                    addNotification('Family Update', member.name + ' has been removed from the family', 'info');
-                }
-            }
-        }
-
-        function deleteChore(id) {
-            if (!appData.isAdmin) {
-                alert('Only Parent Admins can delete chores');
-                return;
-            }
-
-            if (confirm('Are you sure you want to delete this chore?')) {
-                var chore = null;
-                for (var i = 0; i < appData.chores.length; i++) {
-                    if (appData.chores[i].id === id) {
-                        chore = appData.chores[i];
-                        break;
-                    }
-                }
-                
-                if (chore) {
-                    var member = null;
-                    for (var i = 0; i < appData.familyMembers.length; i++) {
-                        if (appData.familyMembers[i].id === chore.assigneeId) {
-                            member = appData.familyMembers[i];
-                            break;
-                        }
-                    }
-                    
-                    if (member) {
-                        member.totalChores--;
-                        if (chore.completed) {
-                            member.completedChores--;
-                        }
-                    }
-                }
-                
-                appData.chores = appData.chores.filter(function(c) {
-                    return c.id !== id;
-                });
-                
-                updateStats();
-                renderChores();
-                renderFamilyMembers();
-                checkWeeklyCompletion();
-            }
-        }
-
-        function addNotification(title, message, type, photo) {
-            var notification = {
-                id: Date.now(),
-                title: title,
-                message: message,
-                type: type,
-                photo: photo || null,
-                timestamp: new Date()
-            };
-            
-            appData.notifications.unshift(notification);
-            
-            if (appData.notifications.length > 50) {
-                appData.notifications = appData.notifications.slice(0, 50);
-            }
-            
-            renderNotifications();
-            
-            if (appData.userRole === 'parent' && type === 'completion') {
-                showNotifications();
-                setTimeout(hideNotifications, 3000);
-            }
-        }
-
-        function renderNotifications() {
-            if (!elements.notificationsList) return;
-            
-            if (appData.notifications.length === 0) {
-                elements.notificationsList.innerHTML = '<div style="padding: 20px; text-align: center; color: #666;">No notifications yet</div>';
-                return;
-            }
-
-            var html = '';
-            for (var i = 0; i < appData.notifications.length; i++) {
-                var notification = appData.notifications[i];
-                html += '<div class="notification-item">' +
-                    '<div class="notification-title">' + notification.title + '</div>' +
-                    '<div class="notification-message">' + notification.message + '</div>' +
-                    (notification.photo ? '<img src="' + notification.photo + '" style="width: 100%; max-width: 200px; border-radius: 8px; margin-top: 10px;" alt="Completion photo">' : '') +
-                    '<div class="notification-time">' + formatTime(notification.timestamp) + '</div>' +
-                    '</div>';
-            }
-            elements.notificationsList.innerHTML = html;
-        }
-
-        function toggleNotifications() {
-            if (elements.notificationsPanel.style.display === 'block') {
-                hideNotifications();
-            } else {
-                showNotifications();
-            }
-        }
-
-        function showNotifications() {
-            if (elements.notificationsPanel) {
-                elements.notificationsPanel.style.display = 'block';
-            }
-        }
-
-        function hideNotifications() {
-            if (elements.notificationsPanel) {
-                elements.notificationsPanel.style.display = 'none';
-            }
-        }
-
-        function updateStats() {
-            var totalChores = appData.chores.length;
-            var completedChores = 0;
-            var overdueChores = 0;
-            var now = new Date();
-            
-            for (var i = 0; i < appData.chores.length; i++) {
-                if (appData.chores[i].completed) {
-                    completedChores++;
-                } else if (new Date(appData.chores[i].dueDate) < now) {
-                    overdueChores++;
-                }
-            }
-            
-            if (elements.totalChores) elements.totalChores.textContent = totalChores;
-            if (elements.completedChores) elements.completedChores.textContent = completedChores;
-            if (elements.overdueChores) elements.overdueChores.textContent = overdueChores;
-            if (elements.familyMembers) elements.familyMembers.textContent = appData.familyMembers.length;
-        }
-
-        function renderFamilyMembers() {
-            if (!elements.familyMembersList) return;
-            
-            if (appData.familyMembers.length === 0) {
-                elements.familyMembersList.innerHTML = '<div class="empty-state"><h3>No family members added yet</h3><p>Add family members to get started</p></div>';
-                return;
-            }
-
-            var html = '';
-            for (var i = 0; i < appData.familyMembers.length; i++) {
-                var member = appData.familyMembers[i];
-                var rate = member.totalChores > 0 ? Math.round((member.completedChores / member.totalChores) * 100) : 0;
-                
-                html += '<div class="member-card">' +
-                    '<div class="member-header">' +
-                    '<div>' +
-                    '<div class="member-role">' + 
-                    (member.role === 'parent' ? 'Parent Admin' : 'Child') +
-                    (member.status === 'invited' ? ' (Invited)' : '') +
-                    '</div>' +
-                    '<div class="member-name">' + member.name + '</div>' +
-                    (member.email ? '<div style="font-size: 0.8em; color: #666;">📧 ' + member.email + '</div>' : '') +
-                    (member.status === 'invited' ? '<div style="font-size: 0.8em; color: #ffa726;">⏳ Waiting for them to join...</div>' : '') +
-                    '</div>' +
-                    (appData.isAdmin ? '<button class="btn btn-small btn-danger" onclick="removeFamilyMember(\'' + member.id + '\')">Remove</button>' : '') +
-                    '</div>' +
-                    '<div class="member-stats">' +
-                    '<span>Total: ' + member.totalChores + '</span>' +
-                    '<span>Done: ' + member.completedChores + '</span>' +
-                    '<span>Rate: ' + rate + '%</span>' +
-                    '</div>' +
-                    '</div>';
-            }
-            elements.familyMembersList.innerHTML = html;
-        }
-
-        function renderChores() {
-            if (!elements.choresList) return;
-            
-            if (appData.chores.length === 0) {
-                elements.choresList.innerHTML = '<div class="empty-state"><h3>No chores assigned yet</h3><p>Add some chores to get started</p></div>';
-                return;
-            }
-
-            var filteredChores = appData.chores;
-            if (appData.userRole === 'child') {
-                filteredChores = [];
-                var currentUser = null;
-                for (var i = 0; i < appData.familyMembers.length; i++) {
-                    if (appData.familyMembers[i].role === 'child') {
-                        currentUser = appData.familyMembers[i];
-                        break;
-                    }
-                }
-                
-                if (currentUser) {
-                    for (var i = 0; i < appData.chores.length; i++) {
-                        if (appData.chores[i].assigneeId === currentUser.id) {
-                            filteredChores.push(appData.chores[i]);
-                        }
-                    }
-                }
-            }
-
-            filteredChores.sort(function(a, b) {
-                if (a.completed !== b.completed) return a.completed ? 1 : -1;
-                return new Date(a.dueDate) - new Date(b.dueDate);
-            });
-
-            var html = '';
-            var now = new Date();
-            
-            for (var i = 0; i < filteredChores.length; i++) {
-                var chore = filteredChores[i];
-                var choreDateTime = new Date(chore.dueDate + 'T' + (chore.startTime || '09:00'));
-                var isOverdue = !chore.completed && now > choreDateTime;
-                var dueDate = new Date(chore.dueDate).toLocaleDateString();
-                
-                var classes = 'chore-item';
-                if (chore.completed) classes += ' completed';
-                if (isOverdue) classes += ' overdue';
-                
-                html += '<div class="' + classes + '">';
-                
-                // Special styling for install chore
-                if (chore.isInstallChore) {
-                    html += '<div style="background: linear-gradient(135deg, #ffa726 0%, #ff7043 100%); color: white; padding: 10px; border-radius: 8px; margin-bottom: 15px; text-align: center; font-weight: bold;">🎯 FIRST CHORE - Install App!</div>';
-                }
-                
-                html += '<div class="chore-title">' + chore.title + '</div>' +
-                    '<div class="chore-meta">' +
-                    '<span>👤 ' + chore.assigneeName + '</span>' +
-                    '<span>📅 ' + dueDate + '</span>' +
-                    '<span>⏰ ' + chore.startTime + '</span>' +
-                    '<span>🔥 ' + chore.priority + '</span>' +
-                    (chore.completed ? '<span>✅ Done</span>' : '') +
-                    (isOverdue ? '<span style="color: #ff6b6b;">⚠️ Overdue</span>' : '') +
-                    '</div>';
-                
-                // Special instructions for install chore
-                if (chore.isInstallChore && !chore.completed) {
-                    html += '<div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0; font-size: 0.9em;">' +
-                        '<strong>📱 How to install:</strong><br>' +
-                        '1. Tap the Share button (⬆️) in Safari<br>' +
-                        '2. Select "Add to Home Screen"<br>' +
-                        '3. Name it "Family Chores"<br>' +
-                        '4. Take a photo of your home screen showing the new app icon<br>' +
-                        '5. Complete this chore with that photo!' +
-                        '</div>';
-                }
-                
-                html += (chore.completionPhoto ? '<img src="' + chore.completionPhoto + '" class="completion-photo" alt="Completion photo">' : '') +
-                    '<div class="chore-actions">';
-                
-                if (appData.userRole === 'child' && !chore.completed) {
-                    var buttonText = chore.isInstallChore ? '📸 Photo of Home Screen' : '📸 Complete with Photo';
-                    html += '<button class="btn btn-small btn-photo" onclick="takeCompletionPhoto(' + chore.id + ')">' + buttonText + '</button>';
-                } else if (appData.isAdmin) {
-                    html += '<button class="btn btn-small ' + (chore.completed ? 'btn-success' : '') + '" onclick="toggleChore(' + chore.id + ')">' +
-                        (chore.completed ? 'Mark Incomplete' : 'Mark Complete') + '</button>';
-                }
-                
-                if (appData.isAdmin && !chore.isInstallChore) {
-                    html += '<button class="btn btn-small btn-danger" onclick="deleteChore(' + chore.id + ')">Delete</button>';
-                }
-                
-                html += '</div></div>';
-            }
-            
-            elements.choresList.innerHTML = html;
-        }
-
-        function updateAssigneeDropdown() {
-            if (!elements.choreAssignee) return;
-            
-            var html = '<option value="">Select child to assign chore</option>';
-            for (var i = 0; i < appData.familyMembers.length; i++) {
-                if (appData.familyMembers[i].role === 'child') {
-                    html += '<option value="' + appData.familyMembers[i].id + '">' + appData.familyMembers[i].name + '</option>';
-                }
-            }
-            elements.choreAssignee.innerHTML = html;
-        }
-
-        function checkWeeklyCompletion() {
-            var now = new Date();
-            var startOfWeek = new Date(now);
-            startOfWeek.setDate(now.getDate() - now.getDay());
-            startOfWeek.setHours(0, 0, 0, 0);
-            
-            var weeklyChores = [];
-            for (var i = 0; i < appData.chores.length; i++) {
-                var choreDate = new Date(appData.chores[i].dueDate);
-                if (choreDate >= startOfWeek && choreDate <= now) {
-                    weeklyChores.push(appData.chores[i]);
-                }
-            }
-            
-            var completedWeeklyChores = [];
-            for (var i = 0; i < weeklyChores.length; i++) {
-                if (weeklyChores[i].completed) {
-                    completedWeeklyChores.push(weeklyChores[i]);
-                }
-            }
-            
-            var progressPercentage = weeklyChores.length > 0 ? 
-                Math.round((completedWeeklyChores.length / weeklyChores.length) * 100) : 0;
-            
-            if (elements.weekProgressFill) {
-                elements.weekProgressFill.style.width = progressPercentage + '%';
-            }
-            if (elements.weekProgressText) {
-                elements.weekProgressText.textContent = 
-                    progressPercentage + '% Complete (' + completedWeeklyChores.length + '/' + weeklyChores.length + ' chores)';
-            }
-            
-            if (weeklyChores.length > 0 && completedWeeklyChores.length === weeklyChores.length) {
-                showCelebration();
-            }
-        }
-
-        function showCelebration() {
-            for (var i = 0; i < appData.familyMembers.length; i++) {
-                addNotification(
-                    '🎉 Weekly Goal Achieved!',
-                    'Congratulations ' + appData.familyMembers[i].name + '! All weekly chores are complete!',
-                    'celebration'
-                );
-            }
-            
-            alert('🎉 Congratulations! All weekly chores have been completed! Great teamwork! 🌟');
-        }
-
-        function formatTime(date) {
-            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        }
-
-        window.toggleChore = toggleChore;
-        window.takeCompletionPhoto = takeCompletionPhoto;
-        window.removeFamilyMember = removeFamilyMember;
-        window.deleteChore = deleteChore;
-
+        // Initialize app
         function init() {
-            console.log('Initializing app...');
-            
-            var today = new Date().toISOString().split('T')[0];
-            if (elements.choreDueDate) {
-                elements.choreDueDate.value = today;
-            }
+            console.log('App initializing...');
             
             // Check for invite codes first
-            var hasInvite = checkForInviteCode();
+            checkForInviteCode();
             
-            setupEventListeners();
-            updateStats();
-            renderFamilyMembers();
-            renderChores();
-            updateAssigneeDropdown();
-            
-            console.log('App initialized, hasInvite:', hasInvite);
+            console.log('App initialized successfully');
         }
 
+        // Start app when DOM is ready
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', init);
         } else {
             init();
         }
+
+        console.log('Script loaded successfully');
     </script>
 </body>
 </html>
